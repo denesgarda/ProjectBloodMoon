@@ -25,7 +25,8 @@ public class Game {
                         break;
                     }
                     else if(loginSignupInput.equalsIgnoreCase("2")) {
-                        System.out.println("This is not yet available");
+                        signup();
+                        break;
                     }
                     else if(loginSignupInput.equalsIgnoreCase("exit")) {
                         exit();
@@ -80,6 +81,35 @@ public class Game {
             }
             else {
                 System.out.println("Username not found! Please try again.");
+            }
+        }
+    }
+    public static void signup() throws IOException, SQLException {
+        while(true) {
+            System.out.print("Email: ");
+            String email = Main.consoleInput.readLine();
+            System.out.print("Username: ");
+            String username = Main.consoleInput.readLine();
+            System.out.print("Password: ");
+            String password = Main.consoleInput.readLine();
+
+            Statement stmt = Main.conn.createStatement();
+            String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                System.out.println("Email is taken! Please try again.");
+            }
+            else {
+                Statement stmt2 = Main.conn.createStatement();
+                String query2 = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
+                ResultSet rs2 = stmt2.executeQuery(query2);
+                if(rs2.next()) {
+                    System.out.println("Username is taken! Please try again.");
+                }
+                else {
+                    // TODO: 5/19/2021 Insert record into database
+                    break;
+                }
             }
         }
     }
