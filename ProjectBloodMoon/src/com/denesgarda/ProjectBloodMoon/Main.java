@@ -33,6 +33,7 @@ public class Main {
             game();
         }
         catch(Exception e) {
+            e.printStackTrace();
             System.out.println("Failed to connect to server. Check your connection and try relaunching the game.");
         }
     }
