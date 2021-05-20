@@ -89,8 +89,14 @@ public class Main {
         if(preCurrentVersion > preLatestVersion) {
             return true;
         }
+        else if(preCurrentVersion < preLatestVersion) {
+            return false;
+        }
         else if(midCurrentVersion > midLatestVersion) {
             return true;
+        }
+        else if(midCurrentVersion < midLatestVersion) {
+            return false;
         }
         else return postCurrentVersion >= postLatestVersion;
     }
