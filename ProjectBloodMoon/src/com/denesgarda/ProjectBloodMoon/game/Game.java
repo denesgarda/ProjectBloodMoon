@@ -291,9 +291,14 @@ public class Game {
                 while(true) {
                     System.out.println("Pick your character's gender\n1) Male\n2) Female");
                     String gender = Main.consoleInput.readLine();
-                    System.out.println("Pick your character's race\n1) Test Race");
+                    System.out.println("""
+                            Pick your character's race. (This cannot be changed later in the game!!!)
+                            1) Human
+                            2) Elf
+                            3) Fairy
+                            4) Beastmen""");
                     String race = Main.consoleInput.readLine();
-                    if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1"))) {
+                    if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
                         String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?, ?)";
                         PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                         stmt3.setString(1, username);
@@ -307,7 +312,16 @@ public class Game {
                             stmt3.setString(4, "female");
                         }
                         if(race.equalsIgnoreCase("1")) {
-                            stmt3.setString(5, "test race");
+                            stmt3.setString(5, "Human");
+                        }
+                        else if(race.equalsIgnoreCase("2")) {
+                            stmt3.setString(5, "Elf");
+                        }
+                        else if(race.equalsIgnoreCase("3")) {
+                            stmt3.setString(5, "Fairy");
+                        }
+                        else if(race.equalsIgnoreCase("4")) {
+                            stmt3.setString(5, "Beastmen");
                         }
                         try {
                             stmt3.executeUpdate();
