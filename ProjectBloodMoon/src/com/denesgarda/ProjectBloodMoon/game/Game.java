@@ -14,7 +14,14 @@ public class Game {
     public static void game() throws IOException, SQLException {
         mainMenuLoop:
         while(true) {
-            System.out.println("\nWelcome to Project: Blood Moon\n==============================\n1) Play\n2) Quit\nps. Type \"exit\" at any time to save and exit.");
+            System.out.println("""
+
+                    Welcome to Project: Blood Moon
+                    ==============================
+                    1) Play
+                    2) Quit
+                    3) How to play (Important)
+                    ps. Type "/exit" at any time to save and exit.""");
             String mainMenuInput = Main.consoleInput.readLine();
             if (mainMenuInput.equalsIgnoreCase("1")) {
                 loginSignup:
@@ -23,24 +30,62 @@ public class Game {
                     String loginSignupInput = Main.consoleInput.readLine();
                     if(loginSignupInput.equalsIgnoreCase("1")) {
                         username = login();
-                        break;
+                        if(username != null) {
+                            System.out.println("Game is not yet implemented.");
+                            exit();
+                        }
                     }
                     else if(loginSignupInput.equalsIgnoreCase("2")) {
                         signup();
                     }
-                    else if(loginSignupInput.equalsIgnoreCase("exit")) {
+                    else if(loginSignupInput.equalsIgnoreCase("/exit")) {
                         exit();
+                    }
+                    else if(loginSignupInput.equalsIgnoreCase("/quit")) {
+                        break;
+                    }
+                    else if(loginSignupInput.equalsIgnoreCase("/save")) {
+                        System.out.println("Cannot save progress because you are not in a game.");
+                    }
+                    else if(loginSignupInput.equalsIgnoreCase("/stats")) {
+                        System.out.println("Cannot view stats because you are not in a game.");
+                    }
+                    else if(loginSignupInput.equalsIgnoreCase("/inventory")) {
+                        System.out.println("Cannot view inventory because you are not in a game.");
                     }
                     else invalid();
                 }
-                System.out.println("Game is not yet implemented.");
-                exit();
             }
             else if(mainMenuInput.equalsIgnoreCase("2")) {
                 exit();
             }
-            else if(mainMenuInput.equalsIgnoreCase("exit")) {
+            else if(mainMenuInput.equals("3")) {
+                System.out.println("""
+
+                        How to play
+                        ===========
+                        The game will tell you how to progress the farther you get.
+                        ===========
+                        There are also keywords, which you can run any time in the game, other than login/signup input. These are the keywords:
+                        "/exit" - Save and exit the game
+                        "/quit" - Quits to main menu
+                        "/save" - Saves progress
+                        "/stats" - View your character's stats
+                        "/inventory" - Check your inventory
+                        """);
+            }
+            else if(mainMenuInput.equalsIgnoreCase("/exit")) {
                 exit();
+            }
+            else if(mainMenuInput.equalsIgnoreCase("/quit")) {}
+            else if(mainMenuInput.equalsIgnoreCase("/save")) {
+                System.out.println("Cannot save progress because you are not in a game.");
+            }
+            else if(mainMenuInput.equalsIgnoreCase("/stats")) {
+                System.out.println("Cannot view stats because you are not in a game.");
+            }
+            else if(mainMenuInput.equalsIgnoreCase("/inventory")) {
+                System.out.println("Cannot view inventory because you are not in a game.");
             }
             else invalid();
         }
@@ -61,86 +106,82 @@ public class Game {
     }
 
     public static String login() throws IOException, SQLException {
-        while(true) {
-            System.out.print("Username: ");
-            String username = Main.consoleInput.readLine();
-            System.out.print("Password: ");
-            String password = Main.consoleInput.readLine();
+        System.out.print("Username: ");
+        String username = Main.consoleInput.readLine();
+        System.out.print("Password: ");
+        String password = Main.consoleInput.readLine();
 
-            Statement stmt = Main.conn.createStatement();
-            String query = "SELECT password FROM pbm.accounts WHERE username = \"" + username + "\"";
-            ResultSet rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                if(rs.getString("password").equals(password)) {
-                    System.out.println("Logging in...");
-                    return username;
-                }
-                else {
-                    System.out.println("Wrong password! Please try again.");
-                }
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT password FROM pbm.accounts WHERE username = \"" + username + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            if(rs.getString("password").equals(password)) {
+                System.out.println("Logging in...");
+                return username;
             }
             else {
-                System.out.println("Username not found! Please try again.");
+                System.out.println("Wrong password! Please try again.");
+                return null;
             }
+        }
+        else {
+            System.out.println("Username not found! Please try again.");
+            return null;
         }
     }
     public static void signup() throws IOException, SQLException {
-        mainLoop:
-        while(true) {
-            System.out.print("Email: ");
-            String email = Main.consoleInput.readLine();
-            System.out.print("Username: ");
-            String username = Main.consoleInput.readLine();
-            System.out.print("Password: ");
-            String password = Main.consoleInput.readLine();
+        System.out.print("Email: ");
+        String email = Main.consoleInput.readLine();
+        System.out.print("Username: ");
+        String username = Main.consoleInput.readLine();
+        System.out.print("Password: ");
+        String password = Main.consoleInput.readLine();
 
-            Statement stmt = Main.conn.createStatement();
-            String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs.next()) {
-                System.out.println("Email is taken! Please try again.");
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        if(rs.next()) {
+            System.out.println("Email is taken! Please try again.");
+        }
+        else {
+            Statement stmt2 = Main.conn.createStatement();
+            String query2 = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
+            ResultSet rs2 = stmt2.executeQuery(query2);
+            if(rs2.next()) {
+                System.out.println("Username is taken! Please try again.");
             }
             else {
-                Statement stmt2 = Main.conn.createStatement();
-                String query2 = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
-                ResultSet rs2 = stmt2.executeQuery(query2);
-                if(rs2.next()) {
-                    System.out.println("Username is taken! Please try again.");
-                }
-                else {
-                    while(true) {
-                        System.out.println("Pick your character's gender\n1) Male\n2) Female");
-                        String gender = Main.consoleInput.readLine();
-                        System.out.println("Pick your character's race\n1) Test Race");
-                        String race = Main.consoleInput.readLine();
-                        if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1"))) {
-                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?)";
-                            PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
-                            stmt3.setString(1, username);
-                            stmt3.setString(2, password);
-                            stmt3.setString(3, email);
-                            if(gender.equalsIgnoreCase("1")) {
-                                stmt3.setString(4, "male");
-                            }
-                            else if(gender.equalsIgnoreCase("2")) {
-                                stmt3.setString(4, "female");
-                            }
-                            if(race.equalsIgnoreCase("1")) {
-                                stmt3.setString(5, "test race");
-                            }
-                            try {
-                                stmt3.executeUpdate();
-                                System.out.println("Account created! Please log in.");
-                                break mainLoop;
-                            }
-                            catch(Exception e) {
-                                System.out.println("Username cannot be longer than 12 characters! Please try again.");
-                                break;
-                            }
+                while(true) {
+                    System.out.println("Pick your character's gender\n1) Male\n2) Female");
+                    String gender = Main.consoleInput.readLine();
+                    System.out.println("Pick your character's race\n1) Test Race");
+                    String race = Main.consoleInput.readLine();
+                    if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1"))) {
+                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?)";
+                        PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
+                        stmt3.setString(1, username);
+                        stmt3.setString(2, password);
+                        stmt3.setString(3, email);
+                        if(gender.equalsIgnoreCase("1")) {
+                            stmt3.setString(4, "male");
                         }
-                        else {
-                            System.out.println("Either the gender or the race is invalid! Please try again.");
+                        else if(gender.equalsIgnoreCase("2")) {
+                            stmt3.setString(4, "female");
                         }
+                        if(race.equalsIgnoreCase("1")) {
+                            stmt3.setString(5, "test race");
+                        }
+                        try {
+                            stmt3.executeUpdate();
+                            System.out.println("Account created! Please log in.");
+                        }
+                        catch(Exception e) {
+                            System.out.println("Username cannot be longer than 12 characters! Please try again.");
+                            break;
+                        }
+                    }
+                    else {
+                        System.out.println("Either the gender or the race is invalid! Please try again.");
                     }
                 }
             }
