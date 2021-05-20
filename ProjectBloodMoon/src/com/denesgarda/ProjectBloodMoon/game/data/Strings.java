@@ -8,8 +8,23 @@ import java.io.IOException;
 
 public class Strings {
     public static void println(String string) throws IOException {
-        System.out.println(string);
-        Main.consoleInput.readLine();
+        while(true) {
+            System.out.println(string);
+            String choiceString = Main.consoleInput.readLine();
+            if (choiceString.equalsIgnoreCase("/exit")) {
+                Game.saveAndExit();
+            } else if (choiceString.equalsIgnoreCase("/quit")) {
+                System.out.println("\nCannot quit at this moment! Please do it when you are given a choice dialogue.\n");
+            } else if (choiceString.equalsIgnoreCase("/save")) {
+                Game.save();
+            } else if (choiceString.equalsIgnoreCase("/stats")) {
+                Game.stats.printStats();
+            } else if (choiceString.equalsIgnoreCase("/inventory")) {
+                Game.stats.printInventory();
+            } else {
+                break;
+            }
+        }
     }
     public static int dialogue(String message, String @NotNull [] choices) throws IOException {
         while(true) {
@@ -31,7 +46,7 @@ public class Strings {
                 Game.stats.printStats();
             }
             else if(choiceString.equalsIgnoreCase("/inventory")) {
-                System.out.println("INVENTORY FEATURE NOT YET IMPLEMENTED");
+                Game.stats.printInventory();
             }
             else {
                 try {
@@ -45,6 +60,15 @@ public class Strings {
                     Game.invalid();
                 }
             }
+        }
+    }
+
+    public static String[] stringToArray(String string) {
+        try {
+            return string.split(", ");
+        }
+        catch(Exception e) {
+            return new String[]{};
         }
     }
 }

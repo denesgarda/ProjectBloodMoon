@@ -19,6 +19,7 @@ import java.util.Random;
 public class Game {
     public static String username;
     public static Stats stats;
+    public static int progress;
 
     public static void game() throws IOException, SQLException {
         loginSignup:
@@ -132,19 +133,46 @@ public class Game {
                             if(continueToGame) {
                                 System.out.println("Loading...");
                                 stats = new Stats(username);
+                                progress = Integer.parseInt(getProgress(username));
 
-                                if(getProgress(username).equals("0")) {
+                                if(progress == 0) {
                                     Strings.println("\nYou wake up...\n(Press [ENTER] to continue)");
-                                    Strings.println("\"Come on, breakfast is ready!\" Your mom calls you out to the living room for breakfast.");
+                                    Strings.println("\"Come now, breakfast is ready!\" Your mom calls you out to the living room for breakfast.");
+                                    Strings.println("While eating breakfast, you hear the radio, \"It's such a beautiful day in Caerleon with sunny skies in the morning and cloudy skies in the afternoon and nigh---....\"");
+                                    Strings.println("The radio cuts out and all you hear is static.");
+                                    Strings.println("\"Not again!\" your mom exclaims.");
                                     Strings.println("You finish eating breakfast...");
-                                    int goOutsideInput = Strings.dialogue("Do you want to go outside and play in the woods with your friends?", new String[]{"Yes, go outside", "No, stay inside"});
+                                    int goOutsideInput = Strings.dialogue("Why don't you go outside and meet up with a few of your friends?", new String[]{"Go outside", "Go to your bedroom"});
+                                    boolean goOutSide = false;
                                     if(goOutsideInput == 1) {
-                                        System.out.println("GOING OUTSIDE");
-                                        exit();
+                                        goOutSide = true;
                                     }
                                     else if(goOutsideInput == 2) {
-                                        System.out.println("STAYING INSIDE");
-                                        exit();
+                                        Strings.println("You go back to your bedroom and take out a book to read. You don't really have anything better to do, after all.");
+                                        Strings.println("You read for about an hour, when your mom calls to you...");
+                                        Strings.println("\"Go outside and play with your friends! You've been inside for too long now.\"");
+                                        Strings.println("Reluctantly, you do what you're told.");
+                                        goOutSide = true;
+                                    }
+                                    if(goOutSide) {
+                                        Strings.println("You go outside and meet up with a few of your friends.");
+                                        Strings.println("Your neighbor suggests that the group go into an unexplored part of the forest.");
+                                        int goToUnexplored = Strings.dialogue("Do you want to go with your friends to explore the new part of the forest?", new String[]{"Yes, go exploring with them", "No, refuse to go"});
+                                        boolean goExploring = false;
+                                        if(goToUnexplored == 1) {
+                                            goExploring = true;
+                                        }
+                                        else if(goToUnexplored == 2) {
+                                            Strings.println("\"Come one, you promised to go with us yesterday!\" Your friends all exclaim.");
+                                            Strings.println("After a little bit of persuasion, you finally give in and go with them.");
+                                            goExploring = true;
+                                        }
+                                        if(goExploring) {
+                                            Strings.println("You start to head off into the depths of the dark oak forest with your group of friends.");
+                                            progress = 1;
+                                            save();
+                                        }
+                                        saveAndExit();
                                     }
                                 }
                             }
@@ -260,7 +288,15 @@ public class Game {
         System.exit(0);
     }
     public static void save() {
-        //save
+        System.out.println("[Saving progress...]");
+        try {
+            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
+            PreparedStatement stmt = Main.conn.prepareStatement(query);
+            stmt.executeUpdate();
+        }
+        catch(Exception e) {
+            System.out.println("WARNING: Unable to save game");
+        }
     }
 
     public static String login() throws IOException, SQLException {
