@@ -15,7 +15,7 @@ public class Main {
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) {
-        logger.info("Project: Blood Moon, by Denes G. and Henry K., beta0.1");
+        logger.info("Project: Blood Moon, by Denes G. and Henry K., beta0.1.2");
         System.out.println("Connecting to server...");
         try {
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=connector&password=dpass");

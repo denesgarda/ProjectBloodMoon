@@ -33,7 +33,7 @@ public class Game {
                     }
                     else invalid();
                 }
-                System.out.println("Game is not yet implemented");
+                System.out.println("Game is not yet implemented.");
                 exit();
             }
             else if(mainMenuInput.equalsIgnoreCase("2")) {
