@@ -12,55 +12,123 @@ public class Game {
     public static String username;
 
     public static void game() throws IOException, SQLException {
-        mainMenuLoop:
+        loginSignup:
         while(true) {
             System.out.println("""
+
+                    Login / Signup
+                    1) Login
+                    2) Signup
+                    3) Quit""");
+            String loginSignupInput = Main.consoleInput.readLine();
+            if(loginSignupInput.equalsIgnoreCase("1")) {
+                username = login();
+                if(username != null) {
+                    mainMenuLoop:
+                    while(true) {
+                        System.out.println("""
 
                     Welcome to Project: Blood Moon
                     ==============================
                     1) Play
                     2) Quit
                     3) How to play (Important)
+                    4) Log out
                     ps. Type "/exit" at any time to save and exit.""");
-            String mainMenuInput = Main.consoleInput.readLine();
-            if (mainMenuInput.equalsIgnoreCase("1")) {
-                loginSignup:
-                while(true) {
-                    System.out.println("\nLogin / Signup\n1) Login\n2) Signup");
-                    String loginSignupInput = Main.consoleInput.readLine();
-                    if(loginSignupInput.equalsIgnoreCase("1")) {
-                        username = login();
-                        if(username != null) {
-                            System.out.println("Game is not yet implemented.");
+                        String mainMenuInput = Main.consoleInput.readLine();
+                        if (mainMenuInput.equalsIgnoreCase("1")) {
+                            boolean continueToGame = false;
+                            infoLoop:
+                            while(true) {
+                                System.out.println("Fetching game info...");
+                                String progress = getProgress(username);
+                                if (progress.equalsIgnoreCase("0")) {
+                                    while (true) {
+                                        System.out.println("""
+                                                                                        
+                                                Choose an option to start:
+                                                1) Start new game""");
+                                        String startOption = Main.consoleInput.readLine();
+                                        if (startOption.equalsIgnoreCase("1")) {
+                                            System.out.println("Starting game...");
+                                            continueToGame = true;
+                                            break;
+                                        }
+                                        else if (startOption.equalsIgnoreCase("/exit")) {
+                                            exit();
+                                        }
+                                        else if (startOption.equalsIgnoreCase("/quit")) {
+                                            break infoLoop;
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/save")) {
+                                            System.out.println("Cannot save progress because you are not in a game.");
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/stats")) {
+                                            System.out.println("Cannot view stats because you are not in a game.");
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/inventory")) {
+                                            System.out.println("Cannot view inventory because you are not in a game.");
+                                        }
+                                        else invalid();
+                                    }
+                                }
+                                else {
+                                    while(true) {
+                                        System.out.println("""
+                                                                                        
+                                                Choose an option to start:
+                                                1) Continue game
+                                                2) Reset progress""");
+                                        String startOption = Main.consoleInput.readLine();
+                                        if (startOption.equalsIgnoreCase("1")) {
+                                            System.out.println("Loading game...");
+                                            continueToGame = true;
+                                            break;
+                                        }
+                                        else if (startOption.equalsIgnoreCase("2")) {
+                                            System.out.print("You will lose all of your progress if you continue. Enter your password to continue.\nPassword: ");
+                                            String cont = Main.consoleInput.readLine();
+                                            if (cont.equalsIgnoreCase(getPassword(username))) {
+                                                System.out.println("Resetting progress...");
+                                                resetProgress(username);
+                                                break;
+                                            }
+                                            else {
+                                                System.out.println("Incorrect password.");
+                                            }
+                                        }
+                                        else if (startOption.equalsIgnoreCase("/exit")) {
+                                            exit();
+                                        }
+                                        else if (startOption.equalsIgnoreCase("/quit")) {
+                                            break infoLoop;
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/save")) {
+                                            System.out.println("Cannot save progress because you are not in a game.");
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/stats")) {
+                                            System.out.println("Cannot view stats because you are not in a game.");
+                                        }
+                                        else if(startOption.equalsIgnoreCase("/inventory")) {
+                                            System.out.println("Cannot view inventory because you are not in a game.");
+                                        }
+                                        else invalid();
+                                    }
+                                }
+                                if(continueToGame) {
+                                    break;
+                                }
+                            }
+                            if(continueToGame) {
+                                System.out.println("THIS IS THE GAME");
+                                exit();
+                            }
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("2")) {
                             exit();
                         }
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("2")) {
-                        signup();
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("/exit")) {
-                        exit();
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("/quit")) {
-                        break;
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("/save")) {
-                        System.out.println("Cannot save progress because you are not in a game.");
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("/stats")) {
-                        System.out.println("Cannot view stats because you are not in a game.");
-                    }
-                    else if(loginSignupInput.equalsIgnoreCase("/inventory")) {
-                        System.out.println("Cannot view inventory because you are not in a game.");
-                    }
-                    else invalid();
-                }
-            }
-            else if(mainMenuInput.equalsIgnoreCase("2")) {
-                exit();
-            }
-            else if(mainMenuInput.equals("3")) {
-                System.out.print("""
+                        else if(mainMenuInput.equals("3")) {
+                            System.out.println("""
 
                         How to play
                         ===========
@@ -73,21 +141,49 @@ public class Game {
                         "/stats" - View your character's stats
                         "/inventory" - Check your inventory
                         
-                        (Press [ENTER] to continue)
-                        """);
-                Main.consoleInput.readLine();
+                        (Press [ENTER] to continue)""");
+                            Main.consoleInput.readLine();
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("4")) {
+                            System.out.println("Logging out...");
+                            break;
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("/exit")) {
+                            exit();
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("/quit")) {}
+                        else if(mainMenuInput.equalsIgnoreCase("/save")) {
+                            System.out.println("Cannot save progress because you are not in a game.");
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("/stats")) {
+                            System.out.println("Cannot view stats because you are not in a game.");
+                        }
+                        else if(mainMenuInput.equalsIgnoreCase("/inventory")) {
+                            System.out.println("Cannot view inventory because you are not in a game.");
+                        }
+                        else invalid();
+                    }
+                }
             }
-            else if(mainMenuInput.equalsIgnoreCase("/exit")) {
+            else if(loginSignupInput.equalsIgnoreCase("2")) {
+                signup();
+            }
+            else if(loginSignupInput.equalsIgnoreCase("3")) {
                 exit();
             }
-            else if(mainMenuInput.equalsIgnoreCase("/quit")) {}
-            else if(mainMenuInput.equalsIgnoreCase("/save")) {
+            else if(loginSignupInput.equalsIgnoreCase("/exit")) {
+                exit();
+            }
+            else if(loginSignupInput.equalsIgnoreCase("/quit")) {
+                System.out.println("Cannot quit to main menu.");
+            }
+            else if(loginSignupInput.equalsIgnoreCase("/save")) {
                 System.out.println("Cannot save progress because you are not in a game.");
             }
-            else if(mainMenuInput.equalsIgnoreCase("/stats")) {
+            else if(loginSignupInput.equalsIgnoreCase("/stats")) {
                 System.out.println("Cannot view stats because you are not in a game.");
             }
-            else if(mainMenuInput.equalsIgnoreCase("/inventory")) {
+            else if(loginSignupInput.equalsIgnoreCase("/inventory")) {
                 System.out.println("Cannot view inventory because you are not in a game.");
             }
             else invalid();
@@ -189,5 +285,27 @@ public class Game {
                 }
             }
         }
+    }
+
+    public static String getProgress(String username) throws SQLException {
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT progress FROM pbm.accounts WHERE username = \"" + username + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        rs.next();
+        return rs.getString("progress");
+    }
+
+    public static String getPassword(String username) throws SQLException {
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT password FROM pbm.accounts WHERE username = \"" + username + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        rs.next();
+        return rs.getString("password");
+    }
+
+    public static void resetProgress(String username) throws SQLException {
+        String query = "UPDATE pbm.accounts SET progress = \"0\"";
+        PreparedStatement stmt = Main.conn.prepareStatement(query);
+        stmt.executeUpdate();
     }
 }
