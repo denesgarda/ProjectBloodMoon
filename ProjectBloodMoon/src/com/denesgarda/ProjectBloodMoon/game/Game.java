@@ -1,6 +1,8 @@
 package com.denesgarda.ProjectBloodMoon.game;
 
 import com.denesgarda.ProjectBloodMoon.Main;
+import com.denesgarda.ProjectBloodMoon.game.data.Stats;
+import com.denesgarda.ProjectBloodMoon.game.data.Strings;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -16,6 +18,7 @@ import java.util.Random;
 
 public class Game {
     public static String username;
+    public static Stats stats;
 
     public static void game() throws IOException, SQLException {
         loginSignup:
@@ -127,8 +130,23 @@ public class Game {
                                 }
                             }
                             if(continueToGame) {
-                                System.out.println("THE GAME IS NOT YET AVAILABLE");
-                                exit();
+                                System.out.println("Loading...");
+                                stats = new Stats(username);
+
+                                if(getProgress(username).equals("0")) {
+                                    Strings.println("\nYou wake up...\n(Press [ENTER] to continue)");
+                                    Strings.println("\"Come on, breakfast is ready!\" Your mom calls you out to the living room for breakfast.");
+                                    Strings.println("You finish eating breakfast...");
+                                    int goOutsideInput = Strings.dialogue("Do you want to go outside and play in the woods with your friends?", new String[]{"Yes, go outside", "No, stay inside"});
+                                    if(goOutsideInput == 1) {
+                                        System.out.println("GOING OUTSIDE");
+                                        exit();
+                                    }
+                                    else if(goOutsideInput == 2) {
+                                        System.out.println("STAYING INSIDE");
+                                        exit();
+                                    }
+                                }
                             }
                         }
                         else if(mainMenuInput.equalsIgnoreCase("2")) {
@@ -237,9 +255,12 @@ public class Game {
         System.exit(0);
     }
     public static void saveAndExit() {
-        //save
+        save();
         System.out.println("Thank you for playing! Bye...");
         System.exit(0);
+    }
+    public static void save() {
+        //save
     }
 
     public static String login() throws IOException, SQLException {
@@ -247,13 +268,13 @@ public class Game {
         String username = Main.consoleInput.readLine();
         System.out.print("Password: ");
         String password = Main.consoleInput.readLine();
+        System.out.println("Logging in...");
 
         Statement stmt = Main.conn.createStatement();
         String query = "SELECT password FROM pbm.accounts WHERE username = \"" + username + "\"";
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             if(rs.getString("password").equals(password)) {
-                System.out.println("Logging in...");
                 return username;
             }
             else {
@@ -299,12 +320,13 @@ public class Game {
                             4) Beastmen""");
                     String race = Main.consoleInput.readLine();
                     if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
-                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress) VALUES (?, ?, ?, ?, ?, ?)";
+                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp) VALUES (?, ?, ?, ?, ?, ?, ?)";
                         PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                         stmt3.setString(1, username);
                         stmt3.setString(2, password);
                         stmt3.setString(3, email);
                         stmt3.setString(6, "0");
+                        stmt3.setString(7, "100");
                         if(gender.equalsIgnoreCase("1")) {
                             stmt3.setString(4, "male");
                         }
@@ -329,7 +351,6 @@ public class Game {
                             break;
                         }
                         catch(Exception e) {
-                            e.printStackTrace();
                             System.out.println("Username cannot be longer than 12 characters! Please try again.");
                             break;
                         }
