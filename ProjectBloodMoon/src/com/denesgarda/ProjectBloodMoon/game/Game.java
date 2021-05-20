@@ -299,7 +299,7 @@ public class Game {
                             4) Beastmen""");
                     String race = Main.consoleInput.readLine();
                     if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
-                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?, ?)";
+                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress) VALUES (?, ?, ?, ?, ?, ?)";
                         PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                         stmt3.setString(1, username);
                         stmt3.setString(2, password);
@@ -326,8 +326,10 @@ public class Game {
                         try {
                             stmt3.executeUpdate();
                             System.out.println("Account created! Please log in.");
+                            break;
                         }
                         catch(Exception e) {
+                            e.printStackTrace();
                             System.out.println("Username cannot be longer than 12 characters! Please try again.");
                             break;
                         }
