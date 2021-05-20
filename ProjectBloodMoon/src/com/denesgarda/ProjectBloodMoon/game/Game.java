@@ -120,7 +120,7 @@ public class Game {
                                 }
                             }
                             if(continueToGame) {
-                                System.out.println("THIS IS THE GAME");
+                                System.out.println("THE GAME IS NOT YET AVAILABLE");
                                 exit();
                             }
                         }

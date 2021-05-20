@@ -3,22 +3,23 @@ package com.denesgarda.ProjectBloodMoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import static com.denesgarda.ProjectBloodMoon.game.Game.exit;
 import static com.denesgarda.ProjectBloodMoon.game.Game.game;
 
 public class Main {
     public static java.sql.Connection conn = null;
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
+    public static String version = "0.1.8";
+    public static String fullVersion = "beta0.1.8";
 
     public static void main(String[] args) {
-        logger.info("Project: Blood Moon, by Denes G. and Henry K., beta0.1.7");
+        logger.info("Project: Blood Moon, by Denes G. and Henry K., " + fullVersion);
         System.out.println("Connecting to server...");
         try {
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=connector&password=dpass");
@@ -33,6 +34,21 @@ public class Main {
                 }
             }));
             System.out.println("Connection established.");
+
+            String query = "SELECT version FROM pbm.versions";
+            PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery();
+            rs.last();
+            if(!checkVersion(version, rs.getString("version"))) {
+                Statement stmt2 = conn.createStatement();
+                String query2 = "SELECT link FROM pbm.versions WHERE version = \"" + rs.getString("version") + "\"";
+                ResultSet rs2 = stmt2.executeQuery(query2);
+                rs2.next();
+                System.out.println("You are using an outdated version of the game. Please download the newest version here: " + rs2.getString("link") + "\n\n(Press [ENTER] to continue)");
+                consoleInput.readLine();
+                exit();
+            }
+
             Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
@@ -59,5 +75,12 @@ public class Main {
             e.printStackTrace();
             System.out.println("Failed to connect to server. Check your connection and try relaunching the game.");
         }
+    }
+
+    public static boolean checkVersion(String currentVersion, String latestVersion) {
+        if(Double.parseDouble(currentVersion.substring(0, currentVersion.length() - 2)) > Double.parseDouble(latestVersion.substring(0, latestVersion.length() - 2))) {
+            return true;
+        }
+        else return Integer.parseInt(currentVersion.substring(currentVersion.length() - 1)) >= Integer.parseInt(latestVersion.substring(latestVersion.length() - 1));
     }
 }
