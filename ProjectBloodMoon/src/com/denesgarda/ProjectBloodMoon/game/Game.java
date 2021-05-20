@@ -60,7 +60,7 @@ public class Game {
                 exit();
             }
             else if(mainMenuInput.equals("3")) {
-                System.out.println("""
+                System.out.print("""
 
                         How to play
                         ===========
@@ -72,7 +72,10 @@ public class Game {
                         "/save" - Saves progress
                         "/stats" - View your character's stats
                         "/inventory" - Check your inventory
+                        
+                        (Press [ENTER] to continue)
                         """);
+                Main.consoleInput.readLine();
             }
             else if(mainMenuInput.equalsIgnoreCase("/exit")) {
                 exit();
