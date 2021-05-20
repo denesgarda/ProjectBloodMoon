@@ -304,7 +304,7 @@ public class Game {
                         stmt3.setString(1, username);
                         stmt3.setString(2, password);
                         stmt3.setString(3, email);
-                        stmt3.setString(4, "0");
+                        stmt3.setString(6, "0");
                         if(gender.equalsIgnoreCase("1")) {
                             stmt3.setString(4, "male");
                         }

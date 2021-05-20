@@ -15,8 +15,8 @@ public class Main {
     public static java.sql.Connection conn = null;
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-    public static String version = "0.2.0";
-    public static String fullVersion = "beta0.2.0";
+    public static String version = "0.2.1";
+    public static String fullVersion = "beta0.2.1";
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by DJHK, " + fullVersion);
