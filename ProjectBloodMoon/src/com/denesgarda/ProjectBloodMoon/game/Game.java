@@ -2,11 +2,17 @@ package com.denesgarda.ProjectBloodMoon.game;
 
 import com.denesgarda.ProjectBloodMoon.Main;
 
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
+import java.util.Random;
 
 public class Game {
     public static String username;
@@ -19,7 +25,8 @@ public class Game {
                     Login / Signup
                     1) Login
                     2) Signup
-                    3) Quit""");
+                    3) Quit
+                    4) Forgot password""");
             String loginSignupInput = Main.consoleInput.readLine();
             if(loginSignupInput.equalsIgnoreCase("1")) {
                 username = login();
@@ -172,6 +179,36 @@ public class Game {
             else if(loginSignupInput.equalsIgnoreCase("3")) {
                 exit();
             }
+            else if(loginSignupInput.equalsIgnoreCase("4")) {
+                System.out.print("Password reset\nEmail: ");
+                String email = Main.consoleInput.readLine();
+                if(checkIfEmailExists(email)) {
+                    System.out.println("Sending code...");
+                    int code = emailCode(email);
+                    System.out.print("Enter verification code: ");
+                    String enteredString = Main.consoleInput.readLine();
+                    try {
+                        int entered = Integer.parseInt(enteredString);
+                        if(entered == code) {
+                            System.out.print("New password: ");
+                            String newPassword = Main.consoleInput.readLine();
+                            String query = "UPDATE pbm.accounts SET password = \"" + newPassword + "\" WHERE email = \"" + email + "\"";
+                            PreparedStatement stmt = Main.conn.prepareStatement(query);
+                            stmt.executeUpdate();
+                            System.out.println("Password reset! Please log in.");
+                        }
+                        else {
+                            System.out.println("Code is incorrect! Please try again.");
+                        }
+                    }
+                    catch(Exception e) {
+                        System.out.println("That is not a valid number! Please try again.");
+                    }
+                }
+                else {
+                    System.out.println("That email is not found in our system.");
+                }
+            }
             else if(loginSignupInput.equalsIgnoreCase("/exit")) {
                 exit();
             }
@@ -306,8 +343,71 @@ public class Game {
     }
 
     public static void resetProgress(String username) throws SQLException {
-        String query = "UPDATE pbm.accounts SET progress = \"0\"";
+        String query = "UPDATE pbm.accounts SET progress = \"0\" WHERE username = \"" + username + "\"";
         PreparedStatement stmt = Main.conn.prepareStatement(query);
         stmt.executeUpdate();
+    }
+
+    public static boolean checkIfEmailExists(String email) throws SQLException {
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+        return stmt.executeQuery(query).next();
+    }
+
+    public static int emailCode(String email) {
+        Random random = new Random();
+        int number = Integer.parseInt(String.format("%06d", random.nextInt(999999)));
+
+        String from = "projectbloodmoon.services";
+        String pass = "dpassgmail";
+        String[] to = { email }; // list of recipient email addresses
+        String subject = "Project: Blood Moon verification code";
+        String body = "Your verification code is: " + number;
+
+        sendFromGMail(from, pass, to, subject, body);
+
+        return number;
+    }
+
+    public static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
+        Properties props = System.getProperties();
+        String host = "smtp.gmail.com";
+        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", from);
+        props.put("mail.smtp.password", pass);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(props);
+        MimeMessage message = new MimeMessage(session);
+
+        try {
+            message.setFrom(new InternetAddress(from));
+            InternetAddress[] toAddress = new InternetAddress[to.length];
+
+            // To get the array of addresses
+            for( int i = 0; i < to.length; i++ ) {
+                toAddress[i] = new InternetAddress(to[i]);
+            }
+
+            for( int i = 0; i < toAddress.length; i++) {
+                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+            }
+
+            message.setSubject(subject);
+            message.setText(body);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        }
+        catch (AddressException ae) {
+            ae.printStackTrace();
+        }
+        catch (MessagingException me) {
+            me.printStackTrace();
+        }
     }
 }

@@ -19,7 +19,7 @@ public class Main {
     public static String fullVersion = "beta0.1.9";
 
     public static void main(String[] args) {
-        logger.info("Project: Blood Moon, by Denes G. and Henry K., " + fullVersion);
+        logger.info("Project: Blood Moon, by DJHK, " + fullVersion);
         System.out.println("Connecting to server...");
         try {
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=connector&password=dpass");
