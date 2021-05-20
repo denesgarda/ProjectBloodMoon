@@ -146,6 +146,7 @@ public class Game {
                         }
                         else if(mainMenuInput.equalsIgnoreCase("4")) {
                             System.out.println("Logging out...");
+                            username = "";
                             break;
                         }
                         else if(mainMenuInput.equalsIgnoreCase("/exit")) {
@@ -256,11 +257,12 @@ public class Game {
                     System.out.println("Pick your character's race\n1) Test Race");
                     String race = Main.consoleInput.readLine();
                     if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1"))) {
-                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?)";
+                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race) VALUES (?, ?, ?, ?, ?, ?)";
                         PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                         stmt3.setString(1, username);
                         stmt3.setString(2, password);
                         stmt3.setString(3, email);
+                        stmt3.setString(4, "0");
                         if(gender.equalsIgnoreCase("1")) {
                             stmt3.setString(4, "male");
                         }

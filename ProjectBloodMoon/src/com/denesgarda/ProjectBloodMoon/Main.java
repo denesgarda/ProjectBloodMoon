@@ -15,8 +15,8 @@ public class Main {
     public static java.sql.Connection conn = null;
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-    public static String version = "0.1.8";
-    public static String fullVersion = "beta0.1.8";
+    public static String version = "0.1.9";
+    public static String fullVersion = "beta0.1.9";
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by Denes G. and Henry K., " + fullVersion);
@@ -35,6 +35,7 @@ public class Main {
             }));
             System.out.println("Connection established.");
 
+            System.out.println("Checking version...");
             String query = "SELECT version FROM pbm.versions";
             PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
@@ -78,9 +79,19 @@ public class Main {
     }
 
     public static boolean checkVersion(String currentVersion, String latestVersion) {
-        if(Double.parseDouble(currentVersion.substring(0, currentVersion.length() - 2)) > Double.parseDouble(latestVersion.substring(0, latestVersion.length() - 2))) {
+        int preCurrentVersion = Integer.parseInt(currentVersion.substring(0, currentVersion.indexOf('.')));
+        int preLatestVersion = Integer.parseInt(latestVersion.substring(0, latestVersion.indexOf('.')));
+        int midCurrentVersion = Integer.parseInt(currentVersion.substring(currentVersion.indexOf('.') + 1, currentVersion.indexOf('.', 2)));
+        int midLatestVersion = Integer.parseInt(latestVersion.substring(latestVersion.indexOf('.') + 1, latestVersion.indexOf('.', 2)));
+        int postCurrentVersion = Integer.parseInt(currentVersion.substring(currentVersion.indexOf('.', 2) + 1));
+        int postLatestVersion = Integer.parseInt(latestVersion.substring(latestVersion.indexOf('.', 2) + 1));
+
+        if(preCurrentVersion > preLatestVersion) {
             return true;
         }
-        else return Integer.parseInt(currentVersion.substring(currentVersion.length() - 1)) >= Integer.parseInt(latestVersion.substring(latestVersion.length() - 1));
+        else if(midCurrentVersion > midLatestVersion) {
+            return true;
+        }
+        else return postCurrentVersion >= postLatestVersion;
     }
 }
