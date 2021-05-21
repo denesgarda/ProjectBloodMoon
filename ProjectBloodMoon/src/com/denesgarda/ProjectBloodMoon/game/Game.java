@@ -287,7 +287,7 @@ public class Game {
             String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
             PreparedStatement stmt = Main.conn.prepareStatement(query);
             stmt.executeUpdate();
-            System.out.println("Progress saved!");
+            System.out.println("Progress saved!\n");
         }
         catch(Exception e) {
             System.out.println("WARNING: Unable to save game");
