@@ -149,12 +149,18 @@ public class Game {
                                         Strings.println("\"Go outside and play with your friends! You've been inside for too long now.\"");
                                         Strings.println("Reluctantly, you do what you're told.");
                                     }
+                                    else if(goOutsideInput == 0) {
+                                        break;
+                                    }
                                     Strings.println("You go outside and meet up with a few of your friends.");
                                     Strings.println("Your neighbor suggests that the group go into an unexplored part of the forest.");
                                     int goToUnexplored = Strings.dialogue("Do you want to go with your friends to explore the new part of the forest?", new String[]{"Yes, go exploring with them", "No, refuse to go"});
                                     if(goToUnexplored == 2) {
                                         Strings.println("\"Come one, you promised to go with us yesterday!\" Your friends all exclaim.");
                                         Strings.println("After a little bit of persuasion, you finally give in and go with them.");
+                                    }
+                                    else if(goToUnexplored == 0) {
+                                        break;
                                     }
                                     Strings.println("You start to head off into the depths of the dark oak forest with your group of friends.");
                                     progress = 1;
