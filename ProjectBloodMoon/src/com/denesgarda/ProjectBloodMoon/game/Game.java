@@ -207,6 +207,34 @@ public class Game {
                                             if(stats.minusHP(100)) continue;
                                         }
                                         if(Strings.println("The group disperses, and you run for your life!")) break;
+                                        if(Strings.println("You run, run, and run...")) break;
+                                        if(Strings.println("WATCH OUT! There's a branch in front of you, but you can't stop running, or the bear will catch up!")) break;
+                                        long start2 = System.currentTimeMillis();
+                                        if(Strings.println("QUICK! Press [ENTER] to duck under it!")) break;
+                                        long finish2 = System.currentTimeMillis();
+                                        long timeElapsed2 = finish2 - start2;
+                                        if(timeElapsed2 <= 250) {
+                                            if(Strings.println("You cleanly duck underneath the branch unscathed.")) break;
+                                        }
+                                        else if(timeElapsed2 <= 500) {
+                                            if(Strings.println("The branch slightly scrapes your head, but you're mostly fine.")) break;
+                                            if(stats.minusHP((double) random.nextInt(25) / 10)) continue;
+                                        }
+                                        else if(timeElapsed2 <= 750) {
+                                            if(Strings.println("The branch hits your forehead hard, and you have a headache. This also slows you down.")) break;
+                                            if(stats.minusHP(random.nextInt(7) + 7)) continue;
+                                        }
+                                        else if(timeElapsed2 <= 1000) {
+                                            if(Strings.println("The branch hits your head and you get whiplash. This slows you down a lot.")) break;
+                                            if(stats.minusHP(random.nextInt(10) + 20)) continue;
+                                        }
+                                        else {
+                                            if(Strings.println("The branch hits your chest. This really hurts and also slows you down a lot.")) break;
+                                            if(stats.minusHP(random.nextInt(23) + 25)) continue;
+                                        }
+                                        if(Strings.println("You continue running through the woods...")) break;
+                                        if(Strings.println("Until you think you finally lost the bear.")) break;
+                                        if(Strings.println("You're out of breath")) break;
                                         break;
                                     }
                                 }
