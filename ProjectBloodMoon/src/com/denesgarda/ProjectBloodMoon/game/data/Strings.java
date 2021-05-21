@@ -5,12 +5,24 @@ import com.denesgarda.ProjectBloodMoon.game.Game;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Strings {
     public static void println(String string) throws IOException {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("\nYou've been idle for 30 seconds. Automatically saving so you don't lose progress.");
+                Game.save();
+            }
+        };
+        timer.schedule(timerTask, 30000);
         while(true) {
             System.out.println(string);
             String choiceString = Main.consoleInput.readLine();
+            timer.cancel();
             if (choiceString.equalsIgnoreCase("/exit")) {
                 Game.saveAndExit();
             } else if (choiceString.equalsIgnoreCase("/quit")) {
@@ -27,12 +39,22 @@ public class Strings {
         }
     }
     public static int dialogue(String message, String @NotNull [] choices) throws IOException {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("\nYou've been idle for 30 seconds. Automatically saving so you don't lose progress.");
+                Game.save();
+            }
+        };
+        timer.schedule(timerTask, 30000);
         while(true) {
             System.out.println(message);
             for (int i = 0; i < choices.length; i++) {
                 System.out.println((i + 1) + ") " + choices[i]);
             }
             String choiceString = Main.consoleInput.readLine();
+            timer.cancel();
             if(choiceString.equalsIgnoreCase("/exit")) {
                 Game.saveAndExit();
             }
