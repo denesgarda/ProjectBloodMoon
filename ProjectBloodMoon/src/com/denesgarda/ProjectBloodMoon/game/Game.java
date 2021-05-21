@@ -167,7 +167,7 @@ public class Game {
                                     Strings.println("You feel the temperature getting colder and colder.");
                                     Strings.println("You sense something's wrong...");
                                     Strings.println("You hear rustling around you.");
-                                    Strings.println("The entre group turns to where you heard the rustling.");
+                                    Strings.println("The entire group turns to where you heard the rustling.");
                                 }
                             }
                         }
