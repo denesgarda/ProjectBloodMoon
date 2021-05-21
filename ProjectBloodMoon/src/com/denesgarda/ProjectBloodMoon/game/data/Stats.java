@@ -71,6 +71,11 @@ public class Stats {
         }
         return this;
     }
+    public Stats resetHP() {
+        System.out.println("HP fully regenerated!\n");
+        this.hP = 100;
+        return this;
+    }
 
     public void printInventory() {
         System.out.println("\nINVENTORY:\n" + Arrays.toString(this.inventory) + "\n");

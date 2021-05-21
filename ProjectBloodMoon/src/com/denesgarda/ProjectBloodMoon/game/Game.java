@@ -235,6 +235,51 @@ public class Game {
                                         if(Strings.println("You continue running through the woods...")) break;
                                         if(Strings.println("Until you think you finally lost the bear.")) break;
                                         if(Strings.println("You're out of breath...")) break;
+                                        if(Strings.println("You calm down a little bit. There is a cave up ahead.")) break;
+                                        int goIntoCave = Strings.dialogue("Do you enter the cave?", new String[]{"Go in", "Go past"});
+                                        if(goIntoCave == 2) {
+                                            if(Strings.println("You walk past the cave to find better shelter.")) break;
+                                            if(Strings.println("You step on a loud branch on accident.")) break;
+                                            if(Strings.println("This noise alerts the bear, and the bear sprints towards you.")) break;
+                                            long start3 = System.currentTimeMillis();
+                                            if(Strings.println("RUN BACK INTO THE CAVE, QUICK! Press [ENTER] to sprint!")) break;
+                                            long finish3 = System.currentTimeMillis();
+                                            long timeElapsed3 = finish3 - start3;
+                                            if(timeElapsed3 > 1000) {
+                                                if(Strings.println("The bear got you.")) break;
+                                                if(stats.minusHP(100)) continue;
+                                            }
+                                        }
+                                        else if(goIntoCave == 0) {
+                                            break;
+                                        }
+                                        if(Strings.println("You make it into the cave. It's dark, but you figure this is a safe place to rest.")) break;
+                                        int goFarther = Strings.dialogue("You still may be visible to the bear outside of the cave. Do you want to go farther in?", new String[]{"Go farther in", "Stay where you are"});
+                                        if(goFarther == 2) {
+                                            if(Strings.println("The bear runs up to the cave.")) break;
+                                            long start3 = System.currentTimeMillis();
+                                            if(Strings.println("QUICK! Press [ENTER] to hide!")) break;
+                                            long finish3 = System.currentTimeMillis();
+                                            long timeElapsed3 = finish3 - start3;
+                                            if(timeElapsed3 > 900) {
+                                                if(Strings.println("The bear got you.")) break;
+                                                if(stats.minusHP(100)) continue;
+                                            }
+                                            else {
+                                                if(Strings.println("You hide deeper in the cave...")) break;
+                                            }
+                                        }
+                                        else if(goFarther == 0) {
+                                            break;
+                                        }
+                                        if(Strings.println("You walk deeper and deeper into the cave.")) break;
+                                        if(Strings.println("You suddenly feel a force. You feel rejuvenated. All of your cuts and scratches heal up, almost like it's magic...")) break;
+                                        stats.resetHP();
+                                        progress = 2;
+                                        saveAtCheckpoint();
+                                    }
+                                    if(progress == 2) {
+                                        if(Strings.println("THE REST OF THE GAME IS NOT YET IMPLEMENTED!")) break;
                                         break;
                                     }
                                 }
