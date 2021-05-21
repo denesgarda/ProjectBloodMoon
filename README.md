@@ -1,5 +1,6 @@
 # Project: Blood Moon
 Project: Blood Moon is a fantasy adventure console typing game that takes place in WWII.
+You cannot officially download anything yet, as the game is still in beta.
 ## For Windows users
 Download and extract everything in the .zip file. Make sure to keep all of the files in the same folder. Simply double click the file named start_on_windows.bat. If it says windows proptected your PC, just click "more info" and then "Run Anyway".
 ## For MacOS users
