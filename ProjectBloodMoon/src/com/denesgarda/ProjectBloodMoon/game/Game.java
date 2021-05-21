@@ -234,7 +234,7 @@ public class Game {
                                         }
                                         if(Strings.println("You continue running through the woods...")) break;
                                         if(Strings.println("Until you think you finally lost the bear.")) break;
-                                        if(Strings.println("You're out of breath")) break;
+                                        if(Strings.println("You're out of breath...")) break;
                                         break;
                                     }
                                 }
