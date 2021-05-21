@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Strings {
-    public static void println(String string) throws IOException {
+    public static boolean println(String string) throws IOException {
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -26,7 +26,7 @@ public class Strings {
             if (choiceString.equalsIgnoreCase("/exit")) {
                 Game.saveAndExit();
             } else if (choiceString.equalsIgnoreCase("/quit")) {
-                System.out.println("\nCannot quit at this moment! Please do it when you are given a choice dialogue.\n");
+                return true;
             } else if (choiceString.equalsIgnoreCase("/save")) {
                 Game.save();
             } else if (choiceString.equalsIgnoreCase("/stats")) {
@@ -37,6 +37,7 @@ public class Strings {
                 break;
             }
         }
+        return false;
     }
     public static int dialogue(String message, String @NotNull [] choices) throws IOException {
         Timer timer = new Timer();
@@ -92,5 +93,10 @@ public class Strings {
         catch(Exception e) {
             return new String[]{};
         }
+    }
+
+    public static void youDied() throws IOException {
+        System.out.println("You died!\n(Press [ENTER] to go back to checkpoint)");
+        Main.consoleInput.readLine();
     }
 }

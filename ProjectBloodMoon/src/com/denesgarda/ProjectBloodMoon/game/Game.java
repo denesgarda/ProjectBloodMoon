@@ -15,11 +15,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game {
     public static String username;
     public static Stats stats;
     public static int progress;
+    public static Random random = new Random();
 
     public static void game() throws IOException, SQLException {
         loginSignup:
@@ -135,45 +138,77 @@ public class Game {
                                 stats = new Stats(username);
                                 progress = Integer.parseInt(getProgress(username));
 
-                                if(progress == 0) {
-                                    Strings.println("You wake up...\n(Press [ENTER] to continue)");
-                                    Strings.println("\"Come now, breakfast is ready!\" Your mom calls you out to the living room for breakfast.");
-                                    Strings.println("While eating breakfast, you hear the radio, \"It's such a beautiful day in Caerleon with sunny skies in the morning and cloudy skies in the afternoon and nigh---....\"");
-                                    Strings.println("The radio cuts out and all you hear is static.");
-                                    Strings.println("\"Not again!\" your mom exclaims.");
-                                    Strings.println("You finish eating breakfast...");
-                                    int goOutsideInput = Strings.dialogue("Why don't you go outside and meet up with a few of your friends?", new String[]{"Go outside", "Go to your bedroom"});
-                                    if(goOutsideInput == 2) {
-                                        Strings.println("You go back to your bedroom and take out a book to read. You don't really have anything better to do, after all.");
-                                        Strings.println("You read for about an hour, when your mom calls to you...");
-                                        Strings.println("\"Go outside and play with your friends! You've been inside for too long now.\"");
-                                        Strings.println("Reluctantly, you do what you're told.");
+                                gameLoop:
+                                while(true) {
+                                    if (progress == 0) {
+                                        if(Strings.println("You wake up...\n(Press [ENTER] to continue)")) break;
+                                        if(Strings.println("\"Come now, breakfast is ready!\" Your mom calls you out to the living room for breakfast.")) break;
+                                        if(Strings.println("While eating breakfast, you hear the radio, \"It's such a beautiful day in Caerleon with sunny skies in the morning and cloudy skies in the afternoon and nigh---....\"")) break;
+                                        if(Strings.println("The radio cuts out and all you hear is static.")) break;
+                                        if(Strings.println("\"Not again!\" your mom exclaims.")) break;
+                                        if(Strings.println("You finish eating breakfast...")) break;
+                                        int goOutsideInput = Strings.dialogue("Why don't you go outside and meet up with a few of your friends?", new String[]{"Go outside", "Go to your bedroom"});
+                                        if (goOutsideInput == 2) {
+                                            Strings.println("You go back to your bedroom and take out a book to read. You don't really have anything better to do, after all.");
+                                            Strings.println("You read for about an hour, when your mom calls to you...");
+                                            Strings.println("\"Go outside and play with your friends! You've been inside for too long now.\"");
+                                            Strings.println("Reluctantly, you do what you're told.");
+                                        } else if (goOutsideInput == 0) {
+                                            break;
+                                        }
+                                        if(Strings.println("You go outside and meet up with a few of your friends.")) break;
+                                        if(Strings.println("Your neighbor suggests that the group go into an unexplored part of the forest.")) break;
+                                        int goToUnexplored = Strings.dialogue("Do you want to go with your friends to explore the new part of the forest?", new String[]{"Yes, go exploring with them", "No, refuse to go"});
+                                        if (goToUnexplored == 2) {
+                                            Strings.println("\"Come on, you promised to go with us yesterday!\" Your friends all exclaim.");
+                                            Strings.println("After a little bit of persuasion, you finally give in and go with them.");
+                                        } else if (goToUnexplored == 0) {
+                                            break;
+                                        }
+                                        if(Strings.println("You start to head off into the depths of the dark oak forest with your group of friends.")) break;
+                                        progress = 1;
+                                        saveAtCheckpoint();
                                     }
-                                    else if(goOutsideInput == 0) {
+                                    if (progress == 1) {
+                                        if(Strings.println("You walk with the group for a while.")) break;
+                                        if(Strings.println("The sun gets higher and higher in the sky.")) break;
+                                        if(Strings.println("You're still familiar with where you are. You've explored so much of this place, that you still recognize everything around you even this far out.")) break;
+                                        if(Strings.println("You feel the temperature getting colder and colder.")) break;
+                                        if(Strings.println("You sense something's wrong...")) break;
+                                        if(Strings.println("You hear rustling around you.")) break;
+                                        if(Strings.println("The entire group turns to where you heard the rustling.")) break;
+                                        if(Strings.println("Suddenly, a bear jumps out at you!")) break;
+                                        long start = System.currentTimeMillis();
+                                        if(Strings.println("QUICK! Press [ENTER] to dodge it!")) break;
+                                        long finish = System.currentTimeMillis();
+                                        long timeElapsed = finish - start;
+                                        if(timeElapsed <= 300) {
+                                            if(Strings.println("You doge the bear and hit the ground hard!")) break;
+                                            if(stats.minusHP(random.nextInt(3) + 7)) continue;
+                                        }
+                                        else if(timeElapsed <= 600) {
+                                            if(Strings.println("The bear slightly hits you but you manage to dodge it!")) break;
+                                            if(stats.minusHP(random.nextInt(6) + 10)) continue;
+                                        }
+                                        else if(timeElapsed <= 1000) {
+                                            if(Strings.println("The bear hits you but it could've been worse!")) break;
+                                            if(stats.minusHP(random.nextInt(8) + 14)) continue;
+                                        }
+                                        else if(timeElapsed <= 1500) {
+                                            if(Strings.println("The bear hits you fairly hard!")) break;
+                                            if(stats.minusHP(random.nextInt(12) + 20)) continue;
+                                        }
+                                        else if(timeElapsed <= 2500) {
+                                            if(Strings.println("The bear hits you head on, but you manage to just escape!")) break;
+                                            if(stats.minusHP(random.nextInt(20) + 35)) continue;
+                                        }
+                                        else {
+                                            if(Strings.println("The bear takes you to the ground and mauls you to death...")) break;
+                                            if(stats.minusHP(100)) continue;
+                                        }
+                                        if(Strings.println("The group disperses, and you run for your life!")) break;
                                         break;
                                     }
-                                    Strings.println("You go outside and meet up with a few of your friends.");
-                                    Strings.println("Your neighbor suggests that the group go into an unexplored part of the forest.");
-                                    int goToUnexplored = Strings.dialogue("Do you want to go with your friends to explore the new part of the forest?", new String[]{"Yes, go exploring with them", "No, refuse to go"});
-                                    if(goToUnexplored == 2) {
-                                        Strings.println("\"Come one, you promised to go with us yesterday!\" Your friends all exclaim.");
-                                        Strings.println("After a little bit of persuasion, you finally give in and go with them.");
-                                    }
-                                    else if(goToUnexplored == 0) {
-                                        break;
-                                    }
-                                    Strings.println("You start to head off into the depths of the dark oak forest with your group of friends.");
-                                    progress = 1;
-                                    save();
-                                }
-                                if(progress == 1) {
-                                    Strings.println("You walk with the group for a while.");
-                                    Strings.println("The sun gets higher and higher in the sky.");
-                                    Strings.println("You're still familiar with where you are. You've explored so much of this place, that you still recognize everything around you even this far out.");
-                                    Strings.println("You feel the temperature getting colder and colder.");
-                                    Strings.println("You sense something's wrong...");
-                                    Strings.println("You hear rustling around you.");
-                                    Strings.println("The entire group turns to where you heard the rustling.");
                                 }
                             }
                         }
@@ -288,11 +323,24 @@ public class Game {
         System.exit(0);
     }
     public static void save() {
-        System.out.println("Saving progress! Please wait...");
+        System.out.println("Saving latest checkpoint! Please wait...");
         try {
             String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
             PreparedStatement stmt = Main.conn.prepareStatement(query);
             stmt.executeUpdate();
+            System.out.println("Progress saved!\n");
+        }
+        catch(Exception e) {
+            System.out.println("WARNING: Unable to save game");
+        }
+    }
+    public static void saveAtCheckpoint() {
+        System.out.println("Checkpoint reached!\nSaving progress! Please wait...");
+        try {
+            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
+            PreparedStatement stmt = Main.conn.prepareStatement(query);
+            stmt.executeUpdate();
+            stats.saveStats();
             System.out.println("Progress saved!\n");
         }
         catch(Exception e) {
