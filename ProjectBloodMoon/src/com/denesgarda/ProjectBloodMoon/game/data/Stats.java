@@ -1,6 +1,7 @@
 package com.denesgarda.ProjectBloodMoon.game.data;
 
 import com.denesgarda.ProjectBloodMoon.Main;
+import com.denesgarda.ProjectBloodMoon.game.Game;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -74,6 +75,18 @@ public class Stats {
     public Stats resetHP() {
         System.out.println("HP fully regenerated!\n");
         this.hP = 100;
+        return this;
+    }
+    public Stats setHP(double hP) {
+        this.hP = hP;
+        return this;
+    }
+    public Stats retrieveAndSetHp() throws SQLException {
+        Statement stmt = Main.conn.createStatement();
+        String query = "SELECT hp FROM pbm.accounts WHERE username = \"" + Game.username + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        rs.next();
+        this.hP = Double.parseDouble(rs.getString("hp"));
         return this;
     }
 

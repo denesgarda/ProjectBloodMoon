@@ -1,7 +1,6 @@
 package com.denesgarda.ProjectBloodMoon;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.Timer;
@@ -15,8 +14,8 @@ public class Main {
     public static java.sql.Connection conn = null;
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-    public static String version = "0.3.0";
-    public static String fullVersion = "beta0.3.0";
+    public static String version = "0.3.1";
+    public static String fullVersion = "beta0.3.1";
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by DJHK, " + fullVersion);

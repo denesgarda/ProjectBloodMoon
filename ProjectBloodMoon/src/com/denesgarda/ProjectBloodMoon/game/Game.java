@@ -74,9 +74,6 @@ public class Game {
                                         else if (startOption.equalsIgnoreCase("/quit")) {
                                             break infoLoop;
                                         }
-                                        else if(startOption.equalsIgnoreCase("/save")) {
-                                            System.out.println("Cannot save progress because you are not in a game.");
-                                        }
                                         else if(startOption.equalsIgnoreCase("/stats")) {
                                             System.out.println("Cannot view stats because you are not in a game.");
                                         }
@@ -117,9 +114,6 @@ public class Game {
                                         else if (startOption.equalsIgnoreCase("/quit")) {
                                             break infoLoop;
                                         }
-                                        else if(startOption.equalsIgnoreCase("/save")) {
-                                            System.out.println("Cannot save progress because you are not in a game.");
-                                        }
                                         else if(startOption.equalsIgnoreCase("/stats")) {
                                             System.out.println("Cannot view stats because you are not in a game.");
                                         }
@@ -141,6 +135,7 @@ public class Game {
                                 gameLoop:
                                 while(true) {
                                     if (progress == 0) {
+                                        stats.setHP(100);
                                         if(Strings.println("You wake up...\n(Press [ENTER] to continue)")) break;
                                         if(Strings.println("\"Come now, breakfast is ready!\" Your mom calls you out to the living room for breakfast.")) break;
                                         if(Strings.println("While eating breakfast, you hear the radio, \"It's such a beautiful day in Caerleon with sunny skies in the morning and cloudy skies in the afternoon and nigh---....\"")) break;
@@ -170,6 +165,7 @@ public class Game {
                                         saveAtCheckpoint();
                                     }
                                     if (progress == 1) {
+                                        stats.retrieveAndSetHp();
                                         if(Strings.println("You walk with the group for a while.")) break;
                                         if(Strings.println("The sun gets higher and higher in the sky.")) break;
                                         if(Strings.println("You're still familiar with where you are. You've explored so much of this place, that you still recognize everything around you even this far out.")) break;
@@ -279,6 +275,7 @@ public class Game {
                                         saveAtCheckpoint();
                                     }
                                     if(progress == 2) {
+                                        stats.retrieveAndSetHp();
                                         if(Strings.println("THE REST OF THE GAME IS NOT YET IMPLEMENTED!")) break;
                                         break;
                                     }
@@ -298,7 +295,6 @@ public class Game {
                         There are also keywords, which you can run any time in the game, other than login/signup input. These are the keywords:
                         "/exit" - Save and exit the game
                         "/quit" - Quits to main menu
-                        "/save" - Saves progress
                         "/stats" - View your character's stats
                         "/inventory" - Check your inventory
                         
@@ -314,9 +310,6 @@ public class Game {
                             exit();
                         }
                         else if(mainMenuInput.equalsIgnoreCase("/quit")) {}
-                        else if(mainMenuInput.equalsIgnoreCase("/save")) {
-                            System.out.println("Cannot save progress because you are not in a game.");
-                        }
                         else if(mainMenuInput.equalsIgnoreCase("/stats")) {
                             System.out.println("Cannot view stats because you are not in a game.");
                         }
@@ -369,9 +362,6 @@ public class Game {
             else if(loginSignupInput.equalsIgnoreCase("/quit")) {
                 System.out.println("Cannot quit to main menu.");
             }
-            else if(loginSignupInput.equalsIgnoreCase("/save")) {
-                System.out.println("Cannot save progress because you are not in a game.");
-            }
             else if(loginSignupInput.equalsIgnoreCase("/stats")) {
                 System.out.println("Cannot view stats because you are not in a game.");
             }
@@ -390,27 +380,10 @@ public class Game {
         System.out.println("Thank you for playing! Bye...");
         System.exit(0);
     }
-    public static void saveAndExit() {
-        save();
-        System.out.println("Thank you for playing! Bye...");
-        System.exit(0);
-    }
-    public static void save() {
-        System.out.println("Saving latest checkpoint! Please wait...");
-        try {
-            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
-            PreparedStatement stmt = Main.conn.prepareStatement(query);
-            stmt.executeUpdate();
-            System.out.println("Progress saved!\n");
-        }
-        catch(Exception e) {
-            System.out.println("WARNING: Unable to save game");
-        }
-    }
     public static void saveAtCheckpoint() {
         System.out.println("Checkpoint reached!\nSaving progress! Please wait...");
         try {
-            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
+            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\", hp = \"" + stats.getHP() + "\"";
             PreparedStatement stmt = Main.conn.prepareStatement(query);
             stmt.executeUpdate();
             stats.saveStats();

@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="ProjectBloodMoon:jar">
-    <output-path>$PROJECT_DIR$/../builds/beta0.3.0</output-path>
+    <output-path>$PROJECT_DIR$/../builds/beta0.3.1</output-path>
     <root id="archive" name="ProjectBloodMoon.jar">
       <element id="module-output" name="ProjectBloodMoon" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/javax.activation-1.2.0.jar" path-in-jar="/" />

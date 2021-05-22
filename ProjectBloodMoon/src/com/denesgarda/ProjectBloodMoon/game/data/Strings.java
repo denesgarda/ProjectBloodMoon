@@ -10,25 +10,22 @@ import java.util.TimerTask;
 
 public class Strings {
     public static boolean println(String string) throws IOException {
-        Timer timer = new Timer();
+        /*Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("\nYou've been idle for 30 seconds. Automatically saving so you don't lose progress.");
-                Game.save();
+                System.out.println("\nYou've been idle for 30 seconds. Applying safe mode settings...");
             }
         };
-        timer.schedule(timerTask, 30000);
+        timer.schedule(timerTask, 30000);**/
         while(true) {
             System.out.println(string);
             String choiceString = Main.consoleInput.readLine();
-            timer.cancel();
+            //timer.cancel();
             if (choiceString.equalsIgnoreCase("/exit")) {
-                Game.saveAndExit();
+                Game.exit();
             } else if (choiceString.equalsIgnoreCase("/quit")) {
                 return true;
-            } else if (choiceString.equalsIgnoreCase("/save")) {
-                Game.save();
             } else if (choiceString.equalsIgnoreCase("/stats")) {
                 Game.stats.printStats();
             } else if (choiceString.equalsIgnoreCase("/inventory")) {
@@ -40,30 +37,26 @@ public class Strings {
         return false;
     }
     public static int dialogue(String message, String @NotNull [] choices) throws IOException {
-        Timer timer = new Timer();
+        /*Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("\nYou've been idle for 30 seconds. Automatically saving so you don't lose progress.");
-                Game.save();
+                System.out.println("\nYou've been idle for 30 seconds. Applying safe mode settings...");
             }
         };
-        timer.schedule(timerTask, 30000);
+        timer.schedule(timerTask, 30000);*/
         while(true) {
             System.out.println(message);
             for (int i = 0; i < choices.length; i++) {
                 System.out.println((i + 1) + ") " + choices[i]);
             }
             String choiceString = Main.consoleInput.readLine();
-            timer.cancel();
+            //timer.cancel();
             if(choiceString.equalsIgnoreCase("/exit")) {
-                Game.saveAndExit();
+                Game.exit();
             }
             else if(choiceString.equalsIgnoreCase("/quit")) {
                 return 0;
-            }
-            else if(choiceString.equalsIgnoreCase("/save")) {
-                Game.save();
             }
             else if(choiceString.equalsIgnoreCase("/stats")) {
                 Game.stats.printStats();
