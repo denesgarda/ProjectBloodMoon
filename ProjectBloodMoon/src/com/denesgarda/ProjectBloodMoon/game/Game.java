@@ -1,6 +1,7 @@
 package com.denesgarda.ProjectBloodMoon.game;
 
 import com.denesgarda.ProjectBloodMoon.Main;
+import com.denesgarda.ProjectBloodMoon.game.data.PasswordField;
 import com.denesgarda.ProjectBloodMoon.game.data.Stats;
 import com.denesgarda.ProjectBloodMoon.game.data.Strings;
 
@@ -97,8 +98,9 @@ public class Game {
                                             break;
                                         }
                                         else if (startOption.equalsIgnoreCase("2")) {
-                                            System.out.print("You will lose all of your progress if you continue. Enter your password to continue.\nPassword: ");
-                                            String cont = Main.consoleInput.readLine();
+                                            System.out.println("You will lose all of your progress if you continue. Enter your password to continue.");
+                                            //String cont = Main.consoleInput.readLine();
+                                            String cont = PasswordField.readPassword("Password: ");
                                             if (cont.equalsIgnoreCase(getPassword(username))) {
                                                 System.out.println("Resetting progress...");
                                                 resetProgress(username);
@@ -345,8 +347,9 @@ public class Game {
                     try {
                         int entered = Integer.parseInt(enteredString);
                         if(entered == code) {
-                            System.out.print("New password: ");
-                            String newPassword = Main.consoleInput.readLine();
+                            //System.out.print("New password: ");
+                            //String newPassword = Main.consoleInput.readLine();
+                            String newPassword = PasswordField.readPassword(" New password: ");
                             String query = "UPDATE pbm.accounts SET password = \"" + newPassword + "\" WHERE email = \"" + email + "\"";
                             PreparedStatement stmt = Main.conn.prepareStatement(query);
                             stmt.executeUpdate();
@@ -405,8 +408,9 @@ public class Game {
     public static String login() throws IOException, SQLException {
         System.out.print("Username: ");
         String username = Main.consoleInput.readLine();
-        System.out.print("Password: ");
-        String password = Main.consoleInput.readLine();
+        //System.out.print("Password: ");
+        //String password = Main.consoleInput.readLine();
+        String password = PasswordField.readPassword("Password: ");
         System.out.println("Logging in...");
 
         Statement stmt = Main.conn.createStatement();
@@ -431,8 +435,9 @@ public class Game {
         String email = Main.consoleInput.readLine();
         System.out.print("Username: ");
         String username = Main.consoleInput.readLine();
-        System.out.print("Password: ");
-        String password = Main.consoleInput.readLine();
+        //System.out.print("Password: ");
+        //String password = Main.consoleInput.readLine();
+        String password = PasswordField.readPassword("Password: ");
 
         Statement stmt = Main.conn.createStatement();
         String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
@@ -448,6 +453,21 @@ public class Game {
                 System.out.println("Username is taken! Please try again.");
             }
             else {
+                System.out.println("Loading...");
+                int code = emailCode(email);
+                System.out.print("A verification code was sent to your email. Enter it here to verify it's you.\nEnter verification code: ");
+                String enteredCode = Main.consoleInput.readLine();
+                try {
+                    int enteredCodeInt = Integer.parseInt(enteredCode);
+                    if(code != enteredCodeInt) {
+                        System.out.println("Code is incorrect! Please try again.");
+                        return;
+                    }
+                }
+                catch(Exception e) {
+                    System.out.println("Code is incorrect! Please try again.");
+                    return;
+                }
                 while(true) {
                     System.out.println("Pick your character's gender\n1) Male\n2) Female");
                     String gender = Main.consoleInput.readLine();
@@ -579,11 +599,6 @@ public class Game {
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
-        catch (AddressException ae) {
-            ae.printStackTrace();
-        }
-        catch (MessagingException me) {
-            me.printStackTrace();
-        }
+        catch(Exception ignore) {}
     }
 }
