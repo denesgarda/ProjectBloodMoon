@@ -15,6 +15,7 @@ public class Main {
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version = 0;
+    public static double launcherVersion = 1.0;
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by DJHK");
@@ -43,6 +44,20 @@ public class Main {
             PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             rs.last();
+
+            String query3 = "SELECT version FROM pbm.launchers";
+            PreparedStatement stmt3 = conn.prepareStatement(query3, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs3 = stmt3.executeQuery(query3);
+            rs3.last();
+            if(!(launcherVersion >= Double.parseDouble(rs3.getString("version")))) {
+                Statement stmt2 = conn.createStatement();
+                String query2 = "SELECT link FROM pbm.launchers WHERE version = \"" + rs3.getString("version") + "\"";
+                ResultSet rs2 = stmt2.executeQuery(query2);
+                rs2.next();
+                System.out.println("You are using an expired package. Please download the newest version here: " + rs2.getString("link"));
+                System.exit(0);
+            }
+
             if(!(version >= Double.parseDouble(rs.getString("version")))) {
                 System.out.println("You are using an outdated version of the game. Downloading new version...");
                 Statement stmt2 = conn.createStatement();

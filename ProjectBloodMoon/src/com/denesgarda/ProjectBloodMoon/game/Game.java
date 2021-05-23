@@ -49,6 +49,7 @@ public class Game {
                     2) Quit
                     3) How to play (Important)
                     4) Log out
+                    5) Account options
                     ps. Type "/exit" at any time to save and exit.""");
                         String mainMenuInput = Main.consoleInput.readLine();
                         if (mainMenuInput.equalsIgnoreCase("1")) {
@@ -315,6 +316,116 @@ public class Game {
                             System.out.println("Logging out...");
                             username = "";
                             break;
+                        }
+                        else if(mainMenuInput.equals("5")) {
+                            accountOptionsLoop:
+                            while(true) {
+                                System.out.println("""
+                                                                            
+                                        Account Options
+                                        ===============
+                                        1) Change email
+                                        2) Change username
+                                        3) Change password
+                                        4) Delete account""");
+                                String accountOptionsInput = Main.consoleInput.readLine();
+                                if(accountOptionsInput.equalsIgnoreCase("1")) {
+                                    System.out.print("Enter new email: ");
+                                    String email = Main.consoleInput.readLine();
+
+                                    Statement stmt = Main.conn.createStatement();
+                                    String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+                                    ResultSet rs = stmt.executeQuery(query);
+                                    if (rs.next()) {
+                                        System.out.println("Email is taken! Please try again.");
+                                    } else {
+                                        System.out.println("Loading...");
+                                        int code = emailCode(email);
+                                        System.out.print("A verification code was sent to your new email. Enter it here to verify it's you.\nEnter verification code: ");
+                                        String enteredCode = Main.consoleInput.readLine();
+                                        try {
+                                            int enteredCodeInt = Integer.parseInt(enteredCode);
+                                            if (code != enteredCodeInt) {
+                                                System.out.println("Code is incorrect! Please try again.");
+                                            }
+                                            else {
+                                                System.out.println("Updating email...");
+                                                String query3 = "UPDATE pbm.accounts SET email = \"" + email + "\" WHERE username = \"" + username + "\"";
+                                                PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
+                                                stmt3.executeUpdate();
+                                                System.out.println("Email has been updated!");
+                                            }
+                                        } catch (Exception e) {
+                                            System.out.println("Code is incorrect! Please try again.");
+                                        }
+                                    }
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("2")) {
+                                    System.out.print("Enter new username: ");
+                                    String newUsername = Main.consoleInput.readLine();
+
+                                    Statement stmt = Main.conn.createStatement();
+                                    String query = "SELECT * FROM pbm.accounts WHERE username = \"" + newUsername + "\"";
+                                    ResultSet rs = stmt.executeQuery(query);
+                                    if (rs.next()) {
+                                        System.out.println("Username is taken! Please try again.");
+                                    }
+                                    else {
+                                        System.out.println("Updating username...");
+                                        String query3 = "UPDATE pbm.accounts SET username = \"" + newUsername + "\" WHERE username = \"" + username + "\"";
+                                        PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
+                                        stmt3.executeUpdate();
+                                        username = newUsername;
+                                        System.out.println("Username has been updated!");
+                                    }
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("3")) {
+                                    String newPassword = PasswordField.readPassword("New password: ");
+                                    String confirm = PasswordField.readPassword("Confirm password: ");
+                                    if(newPassword.equals(confirm)) {
+                                        System.out.println("Updating password...");
+                                        String query = "UPDATE pbm.accounts SET password = \"" + newPassword + "\" WHERE username = \"" + username + "\"";
+                                        PreparedStatement stmt = Main.conn.prepareStatement(query);
+                                        stmt.executeUpdate();
+                                        System.out.println("Password has been updated!");
+                                    }
+                                    else {
+                                        System.out.println("Passwords do not match! Please try again.");
+                                    }
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("4")) {
+                                    System.out.println("If you delete your account, everything will be lost!");
+                                    String enteredPassword = PasswordField.readPassword("Enter you password to continue: ");
+                                    if (enteredPassword.equalsIgnoreCase(getPassword(username))) {
+                                        System.out.println("Deleting account...");
+
+                                        String query = "DELETE FROM pbm.accounts WHERE username = \"" + username + "\"";
+                                        PreparedStatement stmt = Main.conn.prepareStatement(query);
+                                        stmt.executeUpdate();
+
+                                        username = "";
+
+                                        System.out.println("Account deleted!");
+                                        break mainMenuLoop;
+                                    }
+                                    else {
+                                        System.out.println("Incorrect password.");
+                                    }
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("/exit")) {
+                                    exit();
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("/quit")) {
+                                    break;
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("/stats")) {
+                                    System.out.println("Cannot view stats because you are not in a game.");
+                                }
+                                else if(accountOptionsInput.equalsIgnoreCase("/inventory")) {
+                                    System.out.println("Cannot view inventory because you are not in a game.");
+                                }
+                                else invalid();
+                            }
                         }
                         else if(mainMenuInput.equalsIgnoreCase("/exit")) {
                             exit();
