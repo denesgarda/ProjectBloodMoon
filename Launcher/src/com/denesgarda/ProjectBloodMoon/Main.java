@@ -46,7 +46,7 @@ public class Main {
             if(!(version >= Double.parseDouble(rs.getString("version")))) {
                 System.out.println("You are using an outdated version of the game. Downloading new version...");
                 Statement stmt2 = conn.createStatement();
-                String query2 = "SELECT link FROM pbm.versions WHERE version = \"" + rs.getString("version") + "\"";
+                String query2 = "SELECT jarlink FROM pbm.versions WHERE version = \"" + rs.getString("version") + "\"";
                 ResultSet rs2 = stmt2.executeQuery(query2);
                 rs2.next();
                 System.out.println("Downloading...");
@@ -54,7 +54,7 @@ public class Main {
 
                 File oldJar = new File("ProjectBloodMoon.jar");
                 oldJar.delete();
-                URL website = new URL(rs2.getString("link"));
+                URL website = new URL(rs2.getString("jarlink"));
                 ReadableByteChannel rbc = Channels.newChannel(website.openStream());
                 FileOutputStream fos = new FileOutputStream("ProjectBloodMoon.jar");
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
