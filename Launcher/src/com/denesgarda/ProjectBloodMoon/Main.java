@@ -64,7 +64,6 @@ public class Main {
 
                 System.out.println("Update finished. Please relaunch the game.\n(Press [ENTER] to exit)");
                 consoleInput.readLine();
-                System.exit(0);
             }
 
             System.out.println("Launching game...");
