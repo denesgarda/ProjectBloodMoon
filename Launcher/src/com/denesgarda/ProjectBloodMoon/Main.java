@@ -62,8 +62,7 @@ public class Main {
                 gameProperties.setProperty("version", rs.getString("version"));
                 gameProperties.save(new ObjectOutputStream(new FileOutputStream("game.properties")), "");
 
-                System.out.println("Update finished. Please relaunch the game.\n(Press [ENTER] to exit)");
-                consoleInput.readLine();
+                System.out.println("Update finished.");
             }
 
             System.out.println("Launching game...");
