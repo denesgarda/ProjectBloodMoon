@@ -68,10 +68,7 @@ public class Main {
             }
 
             System.out.println("Launching game...");
-            String currentPath = new java.io.File(".").getCanonicalPath();
-            ProcessBuilder pb = new ProcessBuilder(System.getProperty("java.home"), "-jar", "ProjectBloodMoon.jar");
-            pb.directory(new File(currentPath));
-            Process p = pb.start();
+            System.exit(3000);
         }
         catch(FileNotFoundException e) {
             System.out.println("Required files are missing. Cannot start game.");
