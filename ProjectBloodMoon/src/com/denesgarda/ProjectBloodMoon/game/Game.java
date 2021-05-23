@@ -276,7 +276,15 @@ public class Game {
                                     }
                                     if(progress == 2) {
                                         stats.retrieveAndSetHp();
-                                        if(Strings.println("THE REST OF THE GAME IS NOT YET IMPLEMENTED!")) break;
+                                        if(Strings.println("You continue deeper and deeper into the cave...")) break;
+                                        if(Strings.println("You see light up ahead.")) break;
+                                        if(Strings.println("You find a fountain with glowing liquid flowing down.")) break;
+                                        if(Strings.println("You are tempted to touch the water.")) break;
+                                        if(Strings.println("It's almost like a force is pulling you in...")) break;
+                                        if(Strings.println("All noise cuts out around you.")) break;
+                                        if(Strings.println("You're getting pulled in by the temptation...")) break;
+                                        if(Strings.println("You touch the water and you make a wish.")) break;
+                                        if(Strings.println("You're wish is to protect your mother at all costs.")) break;
                                         break;
                                     }
                                 }
