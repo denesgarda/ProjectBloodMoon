@@ -82,29 +82,6 @@ public class Main {
         }
     }
 
-    public static boolean checkVersion(String currentVersion, String latestVersion) {
-        int preCurrentVersion = Integer.parseInt(currentVersion.substring(0, currentVersion.indexOf('.')));
-        int preLatestVersion = Integer.parseInt(latestVersion.substring(0, latestVersion.indexOf('.')));
-        int midCurrentVersion = Integer.parseInt(currentVersion.substring(currentVersion.indexOf('.') + 1, currentVersion.indexOf('.', 2)));
-        int midLatestVersion = Integer.parseInt(latestVersion.substring(latestVersion.indexOf('.') + 1, latestVersion.indexOf('.', 2)));
-        int postCurrentVersion = Integer.parseInt(currentVersion.substring(currentVersion.indexOf('.', 2) + 1));
-        int postLatestVersion = Integer.parseInt(latestVersion.substring(latestVersion.indexOf('.', 2) + 1));
-
-        if(preCurrentVersion > preLatestVersion) {
-            return true;
-        }
-        else if(preCurrentVersion < preLatestVersion) {
-            return false;
-        }
-        else if(midCurrentVersion > midLatestVersion) {
-            return true;
-        }
-        else if(midCurrentVersion < midLatestVersion) {
-            return false;
-        }
-        else return postCurrentVersion >= postLatestVersion;
-    }
-
     private static String decrypt(String text) {
         char[] characters = text.toCharArray();
         for(int i = 0; i < characters.length; i++) {
