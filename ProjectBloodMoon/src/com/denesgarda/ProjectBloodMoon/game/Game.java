@@ -281,11 +281,11 @@ public class Game {
                                         if(Strings.println("You continue deeper and deeper into the cave...")) break;
                                         if(Strings.println("You see light up ahead.")) break;
                                         if(Strings.println("You find a fountain with glowing liquid flowing down.")) break;
-                                        if(Strings.println("You are tempted to touch the water.")) break;
+                                        if(Strings.println("You are tempted to touch the liquid.")) break;
                                         if(Strings.println("It's almost like a force is pulling you in...")) break;
                                         if(Strings.println("All noise cuts out around you.")) break;
                                         if(Strings.println("You're getting pulled in by the temptation...")) break;
-                                        if(Strings.println("You touch the water and you make a wish.")) break;
+                                        if(Strings.println("You touch the liquid and you make a wish.")) break;
                                         if(Strings.println("You're wish is to protect your mother at all costs.")) break;
                                         break;
                                     }
@@ -349,11 +349,17 @@ public class Game {
                         if(entered == code) {
                             //System.out.print("New password: ");
                             //String newPassword = Main.consoleInput.readLine();
-                            String newPassword = PasswordField.readPassword(" New password: ");
-                            String query = "UPDATE pbm.accounts SET password = \"" + newPassword + "\" WHERE email = \"" + email + "\"";
-                            PreparedStatement stmt = Main.conn.prepareStatement(query);
-                            stmt.executeUpdate();
-                            System.out.println("Password reset! Please log in.");
+                            String newPassword = PasswordField.readPassword("New password: ");
+                            String confirm = PasswordField.readPassword("Confirm password: ");
+                            if(newPassword.equals(confirm)) {
+                                String query = "UPDATE pbm.accounts SET password = \"" + newPassword + "\" WHERE email = \"" + email + "\"";
+                                PreparedStatement stmt = Main.conn.prepareStatement(query);
+                                stmt.executeUpdate();
+                                System.out.println("Password reset! Please log in.");
+                            }
+                            else {
+                                System.out.println("Passwords do not match! Please try again.");
+                            }
                         }
                         else {
                             System.out.println("Code is incorrect! Please try again.");
@@ -438,87 +444,83 @@ public class Game {
         //System.out.print("Password: ");
         //String password = Main.consoleInput.readLine();
         String password = PasswordField.readPassword("Password: ");
-
-        Statement stmt = Main.conn.createStatement();
-        String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
-        ResultSet rs = stmt.executeQuery(query);
-        if(rs.next()) {
-            System.out.println("Email is taken! Please try again.");
-        }
-        else {
-            Statement stmt2 = Main.conn.createStatement();
-            String query2 = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
-            ResultSet rs2 = stmt2.executeQuery(query2);
-            if(rs2.next()) {
-                System.out.println("Username is taken! Please try again.");
-            }
-            else {
-                System.out.println("Loading...");
-                int code = emailCode(email);
-                System.out.print("A verification code was sent to your email. Enter it here to verify it's you.\nEnter verification code: ");
-                String enteredCode = Main.consoleInput.readLine();
-                try {
-                    int enteredCodeInt = Integer.parseInt(enteredCode);
-                    if(code != enteredCodeInt) {
+        String confirm = PasswordField.readPassword("Confirm password: ");
+        if(password.equals(confirm)) {
+            Statement stmt = Main.conn.createStatement();
+            String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                System.out.println("Email is taken! Please try again.");
+            } else {
+                Statement stmt2 = Main.conn.createStatement();
+                String query2 = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
+                ResultSet rs2 = stmt2.executeQuery(query2);
+                if (rs2.next()) {
+                    System.out.println("Username is taken! Please try again.");
+                } else {
+                    System.out.println("Loading...");
+                    int code = emailCode(email);
+                    System.out.print("A verification code was sent to your email. Enter it here to verify it's you.\nEnter verification code: ");
+                    String enteredCode = Main.consoleInput.readLine();
+                    try {
+                        int enteredCodeInt = Integer.parseInt(enteredCode);
+                        if (code != enteredCodeInt) {
+                            System.out.println("Code is incorrect! Please try again.");
+                            return;
+                        }
+                    } catch (Exception e) {
                         System.out.println("Code is incorrect! Please try again.");
                         return;
                     }
-                }
-                catch(Exception e) {
-                    System.out.println("Code is incorrect! Please try again.");
-                    return;
-                }
-                while(true) {
-                    System.out.println("Pick your character's gender\n1) Male\n2) Female");
-                    String gender = Main.consoleInput.readLine();
-                    System.out.println("""
-                            Pick your character's race. (This cannot be changed later in the game!!!)
-                            1) Human
-                            2) Elf
-                            3) Fairy
-                            4) Beastmen""");
-                    String race = Main.consoleInput.readLine();
-                    if((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
-                        String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                        PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
-                        stmt3.setString(1, username);
-                        stmt3.setString(2, password);
-                        stmt3.setString(3, email);
-                        stmt3.setString(6, "0");
-                        stmt3.setString(7, "100");
-                        if(gender.equalsIgnoreCase("1")) {
-                            stmt3.setString(4, "male");
+                    while (true) {
+                        System.out.println("Pick your character's gender\n1) Male\n2) Female");
+                        String gender = Main.consoleInput.readLine();
+                        System.out.println("""
+                                Pick your character's race. (This cannot be changed later in the game!!!)
+                                1) Human
+                                2) Elf
+                                3) Fairy
+                                4) Beastmen""");
+                        String race = Main.consoleInput.readLine();
+                        if ((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
+                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                            PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
+                            stmt3.setString(1, username);
+                            stmt3.setString(2, password);
+                            stmt3.setString(3, email);
+                            stmt3.setString(6, "0");
+                            stmt3.setString(7, "100");
+                            if (gender.equalsIgnoreCase("1")) {
+                                stmt3.setString(4, "male");
+                            } else if (gender.equalsIgnoreCase("2")) {
+                                stmt3.setString(4, "female");
+                            }
+                            if (race.equalsIgnoreCase("1")) {
+                                stmt3.setString(5, "Human");
+                            } else if (race.equalsIgnoreCase("2")) {
+                                stmt3.setString(5, "Elf");
+                            } else if (race.equalsIgnoreCase("3")) {
+                                stmt3.setString(5, "Fairy");
+                            } else if (race.equalsIgnoreCase("4")) {
+                                stmt3.setString(5, "Beastmen");
+                            }
+                            try {
+                                stmt3.executeUpdate();
+                                System.out.println("Account created! Please log in.");
+                                break;
+                            } catch (Exception e) {
+                                System.out.println("Username cannot be longer than 12 characters! Please try again.");
+                                break;
+                            }
+                        } else {
+                            System.out.println("Either the gender or the race is invalid! Please try again.");
                         }
-                        else if(gender.equalsIgnoreCase("2")) {
-                            stmt3.setString(4, "female");
-                        }
-                        if(race.equalsIgnoreCase("1")) {
-                            stmt3.setString(5, "Human");
-                        }
-                        else if(race.equalsIgnoreCase("2")) {
-                            stmt3.setString(5, "Elf");
-                        }
-                        else if(race.equalsIgnoreCase("3")) {
-                            stmt3.setString(5, "Fairy");
-                        }
-                        else if(race.equalsIgnoreCase("4")) {
-                            stmt3.setString(5, "Beastmen");
-                        }
-                        try {
-                            stmt3.executeUpdate();
-                            System.out.println("Account created! Please log in.");
-                            break;
-                        }
-                        catch(Exception e) {
-                            System.out.println("Username cannot be longer than 12 characters! Please try again.");
-                            break;
-                        }
-                    }
-                    else {
-                        System.out.println("Either the gender or the race is invalid! Please try again.");
                     }
                 }
             }
+        }
+        else {
+            System.out.println("Passwords do not match! Please try again.");
         }
     }
 
