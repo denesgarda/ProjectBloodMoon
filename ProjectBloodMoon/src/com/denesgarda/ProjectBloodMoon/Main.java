@@ -1,5 +1,7 @@
 package com.denesgarda.ProjectBloodMoon;
 
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
@@ -16,7 +18,7 @@ public class Main {
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version = 0;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         logger.info("Project: Blood Moon, by DJHK");
         System.out.println("Connecting to server...");
         try {
@@ -78,11 +80,16 @@ public class Main {
         catch(FileNotFoundException e) {
             System.out.println("Required files are missing. Cannot start game.");
         }
-        catch(SQLException e) {
+        catch(CommunicationsException e) {
             System.out.println("Failed to connect to server. Check your connection and try relaunching the game.");
         }
         catch(Exception e) {
-            System.out.println("Something went wrong... :(");
+            System.out.println("Something went wrong; and error occurred! :(\nPress enter to exit the game. Type \"/debug\" to view the error.");
+            String input = consoleInput.readLine();
+            if(input.equalsIgnoreCase("/debug")) {
+                e.printStackTrace();
+            }
+            System.exit(-1);
         }
     }
 
