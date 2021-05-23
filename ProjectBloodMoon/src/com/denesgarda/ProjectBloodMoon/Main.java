@@ -1,8 +1,8 @@
 package com.denesgarda.ProjectBloodMoon;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.*;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -14,14 +14,16 @@ public class Main {
     public static java.sql.Connection conn = null;
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
-    public static String version = "0.3.1";
-    public static String fullVersion = "beta0.3.1";
+    public static double version = 0;
 
     public static void main(String[] args) {
-        logger.info("Project: Blood Moon, by DJHK, " + fullVersion);
+        logger.info("Project: Blood Moon, by DJHK");
         System.out.println("Connecting to server...");
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=connector&password=dpass");
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("properties.properties"));
+            version = Double.parseDouble(properties.getProperty("version"));
+            conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + decrypt(properties.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("Closing connection...");
@@ -39,7 +41,7 @@ public class Main {
             PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             rs.last();
-            if(!checkVersion(version, rs.getString("version"))) {
+            if(!(version >= Double.parseDouble(rs.getString("version")))) {
                 Statement stmt2 = conn.createStatement();
                 String query2 = "SELECT link FROM pbm.versions WHERE version = \"" + rs.getString("version") + "\"";
                 ResultSet rs2 = stmt2.executeQuery(query2);
@@ -63,13 +65,16 @@ public class Main {
                             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=connector&password=dpass");
                         }
                         catch(Exception e2) {
-                            System.out.println("You are disconnected from the internet! Please reconnect if you want to save your progress!");
+                            System.out.println("You are disconnected from the internet! Please reconnect if you don't want to lose progress!");
                         }
                     }
                 }
             };
             timer.scheduleAtFixedRate(timerTask, 10000, 10000);
             game();
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("Required files are missing. Cannot start game.");
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -98,5 +103,20 @@ public class Main {
             return false;
         }
         else return postCurrentVersion >= postLatestVersion;
+    }
+
+    private static String decrypt(String text) {
+        char[] characters = text.toCharArray();
+        for(int i = 0; i < characters.length; i++) {
+            characters[i] -= 3;
+        }
+        return String.valueOf(characters);
+    }
+    private static String encrypt(String text) {
+        char[] characters = text.toCharArray();
+        for(int i = 0; i < characters.length; i++) {
+            characters[i] += 3;
+        }
+        return String.valueOf(characters);
     }
 }

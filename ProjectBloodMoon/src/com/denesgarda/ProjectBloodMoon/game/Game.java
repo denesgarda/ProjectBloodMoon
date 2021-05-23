@@ -383,7 +383,7 @@ public class Game {
     public static void saveAtCheckpoint() {
         System.out.println("Checkpoint reached!\nSaving progress! Please wait...");
         try {
-            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\", hp = \"" + stats.getHP() + "\"";
+            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
             PreparedStatement stmt = Main.conn.prepareStatement(query);
             stmt.executeUpdate();
             stats.saveStats();
