@@ -57,6 +57,7 @@ public class main {
         finally {
             File pkg = new File("package.zip");
             pkg.delete();
+            System.exit(110);
         }
     }
 }

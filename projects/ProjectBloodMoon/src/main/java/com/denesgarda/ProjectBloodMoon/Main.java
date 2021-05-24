@@ -20,8 +20,23 @@ public class Main {
             version = Double.parseDouble(Utility.getProperty("version"));
             logger.info("Project: Blood Moon, by DJHK, beta" + version);
 
+            //Finalize update
+            File file = new File("Updater.jar");
+            if(file.exists()) {
+                System.out.println("Finalizing update...");
+                file.delete();
+                File bat = new File("update.bat");
+                bat.delete();
+                File command = new File("update.command");
+                command.delete();
+                File sh = new File("update.sh");
+                sh.delete();
+
+                Utility.setProperty("vwu", "true");
+            }
+
             //Connect
-            System.out.println("Connection to server...");
+            System.out.println("Connecting to server...");
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + Utility.decrypt(Utility.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

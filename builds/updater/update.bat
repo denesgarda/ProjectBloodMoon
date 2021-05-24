@@ -1,3 +1,8 @@
 @ECHO OFF
 CALL java -jar Updater.jar
-PAUSE
+IF "%errorlevel%" == "110" (
+	CALL cls
+	CALL java -jar ProjectBloodMoon.jar
+) ELSE (
+	PAUSE
+)
