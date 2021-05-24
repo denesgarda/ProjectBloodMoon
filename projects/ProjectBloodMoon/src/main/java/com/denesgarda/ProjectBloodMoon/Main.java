@@ -109,7 +109,6 @@ public class Main {
             System.exit(0);
         }
         catch(FileNotFoundException e) {
-            e.printStackTrace();
             System.out.println("Required files are missing. Cannot run game.");
             System.exit(0);
         }
