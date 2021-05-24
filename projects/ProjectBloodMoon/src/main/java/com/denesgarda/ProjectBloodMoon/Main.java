@@ -40,13 +40,6 @@ public class Main {
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + Utility.decrypt(Utility.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                File pkg = new File("package.zip");
-                File bat = new File("update.bat");
-                if(!bat.exists()) {
-                    if (pkg.exists()) {
-                        pkg.delete();
-                    }
-                }
                 System.out.println("Closing connection...");
                 try {
                     finalConn.close();
@@ -131,6 +124,7 @@ public class Main {
             System.exit(0);
         }
         catch(FileNotFoundException e) {
+            e.printStackTrace();
             System.out.println("Required files are missing. Cannot run game.");
             System.exit(0);
         }
