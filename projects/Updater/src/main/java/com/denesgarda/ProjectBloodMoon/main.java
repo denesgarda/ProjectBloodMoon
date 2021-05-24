@@ -31,7 +31,7 @@ public class main {
             ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFileName));
             ZipEntry zipEntry = zis.getNextEntry();
             while (zipEntry != null) {
-                String filePath = destDirectory + File.separator + zipEntry.getName();
+                String filePath = /*destDirectory + File.separator + */zipEntry.getName();
                 System.out.println("Unzipping " + filePath);
                 if (!zipEntry.isDirectory()) {
                     FileOutputStream fos = new FileOutputStream(filePath);
