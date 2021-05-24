@@ -15,7 +15,7 @@ public class Main {
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version = 0;
-    public static double launcherVersion = 1.1;
+    public static double launcherVersion = 1.2;
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by DJHK");
@@ -73,7 +73,7 @@ public class Main {
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
                 properties.setProperty("version", rs.getString("version"));
-                properties.save(new ObjectOutputStream(new FileOutputStream("game.properties")), "");
+                properties.save(new ObjectOutputStream(new FileOutputStream("properties.properties")), "");
 
                 System.out.println("Update finished.");
             }
