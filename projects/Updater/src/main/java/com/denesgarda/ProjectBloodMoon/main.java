@@ -54,5 +54,9 @@ public class main {
             System.out.println("ERROR! Could not unzip package.");
             System.exit(0);
         }
+        finally {
+            File pkg = new File("package.zip");
+            pkg.delete();
+        }
     }
 }
