@@ -1,15 +1,13 @@
 package com.denesgarda.ProjectBloodMoon;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Installing update...");
 
         File homeDirectory = new File(new File(".").getAbsolutePath().substring(0, new File(".").getAbsolutePath().length() - 2));
@@ -56,6 +54,8 @@ public class main {
         }
         finally {
             File pkg = new File("package.zip");
+            RandomAccessFile raf = new RandomAccessFile(pkg,"rw");
+            raf.close();
             pkg.delete();
             System.exit(110);
         }
