@@ -22,7 +22,7 @@ public class main {
 
         try {
             String zipFileName = "package.zip";
-            String destDirectory = "test";
+            String destDirectory = "";
             File destDirectoryFolder = new File(destDirectory);
             if (!destDirectoryFolder.exists()) {
                 destDirectoryFolder.mkdir();
