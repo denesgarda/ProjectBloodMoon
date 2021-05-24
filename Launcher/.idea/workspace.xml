@@ -6,7 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86b42a94-7887-439d-8b26-f07a050ac1ea" name="Default Changelist" comment="" />
+    <list default="true" id="86b42a94-7887-439d-8b26-f07a050ac1ea" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/denesgarda/ProjectBloodMoon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/denesgarda/ProjectBloodMoon/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectBloodMoon/src/com/denesgarda/ProjectBloodMoon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectBloodMoon/src/com/denesgarda/ProjectBloodMoon/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectBloodMoon/src/com/denesgarda/ProjectBloodMoon/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectBloodMoon/src/com/denesgarda/ProjectBloodMoon/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../builds/temp/Launcher.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../builds/temp/Launcher.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../builds/temp/ProjectBloodMoon.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../builds/temp/ProjectBloodMoon.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../builds/temp/properties.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../builds/temp/properties.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

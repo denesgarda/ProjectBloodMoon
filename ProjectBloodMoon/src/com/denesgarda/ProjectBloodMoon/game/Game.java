@@ -9,6 +9,7 @@ import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,16 +42,31 @@ public class Game {
                 if(username != null) {
                     mainMenuLoop:
                     while(true) {
-                        System.out.println("""
-
-                    Welcome to Project: Blood Moon
-                    ==============================
-                    1) Play
-                    2) Quit
-                    3) How to play (Important)
-                    4) Log out
-                    5) Account options
-                    ps. Type "/exit" at any time to save and exit.""");
+                        Main.properties.load(new FileInputStream("properties.properties"));
+                        if(Boolean.parseBoolean(Main.properties.getProperty("vwi"))) {
+                            System.out.println("""
+        
+                            Welcome to Project: Blood Moon
+                            ==============================
+                            1) Play
+                            2) Quit
+                            3) How to play (Important!)
+                            4) Log out
+                            5) Account options
+                            ps. Type "/exit" at any time to save and exit.""");
+                        }
+                        else {
+                            System.out.println("""
+        
+                            Welcome to Project: Blood Moon
+                            ==============================
+                            1) Play
+                            2) Quit
+                            3) How to play
+                            4) Log out
+                            5) Account options
+                            ps. Type "/exit" at any time to save and exit.""");
+                        }
                         String mainMenuInput = Main.consoleInput.readLine();
                         if (mainMenuInput.equalsIgnoreCase("1")) {
                             boolean continueToGame = false;
@@ -298,19 +314,20 @@ public class Game {
                         }
                         else if(mainMenuInput.equals("3")) {
                             System.out.println("""
-
-                        How to play
-                        ===========
-                        The game will tell you how to progress the farther you get.
-                        ===========
-                        There are also keywords, which you can run any time in the game, other than login/signup input. These are the keywords:
-                        "/exit" - Save and exit the game
-                        "/quit" - Quits to main menu
-                        "/stats" - View your character's stats
-                        "/inventory" - Check your inventory
-                        
-                        (Press [ENTER] to continue)""");
+    
+                            How to play
+                            ===========
+                            The game will tell you how to progress the farther you get.
+                            ===========
+                            There are also keywords, which you can run any time in the game, other than login/signup input. These are the keywords:
+                            "/exit" - Save and exit the game
+                            "/quit" - Quits to main menu
+                            "/stats" - View your character's stats
+                            "/inventory" - Check your inventory
+                            
+                            (Press [ENTER] to continue)""");
                             Main.consoleInput.readLine();
+                            Main.updateProperty("vwi", "false");
                         }
                         else if(mainMenuInput.equalsIgnoreCase("4")) {
                             System.out.println("Logging out...");

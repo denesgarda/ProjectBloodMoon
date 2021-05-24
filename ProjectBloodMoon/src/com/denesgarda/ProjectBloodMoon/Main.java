@@ -17,12 +17,13 @@ public class Main {
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version = 0;
+    public static Properties properties;
 
     public static void main(String[] args) throws IOException {
         logger.info("Project: Blood Moon, by DJHK");
         System.out.println("Connecting to server...");
         try {
-            Properties properties = new Properties();
+            properties = new Properties();
             properties.load(new FileInputStream("properties.properties"));
             version = Double.parseDouble(properties.getProperty("version"));
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + decrypt(properties.getProperty("enc")));
@@ -73,6 +74,17 @@ public class Main {
                 }
             };
             timer.scheduleAtFixedRate(timerTask, 10000, 10000);
+
+            if(Boolean.parseBoolean(properties.getProperty("vwu"))) {
+                System.out.println("\nUpdate complete! Updated to beta" + properties.getProperty("version"));
+                System.out.println("""
+                        What's new?
+                            - Added properties modifications
+                        (Press [ENTER] to continue)""");
+                consoleInput.readLine();
+                updateProperty("vwu", "false");
+            }
+
             game();
         }
         catch(FileNotFoundException e) {
@@ -104,5 +116,12 @@ public class Main {
             characters[i] += 3;
         }
         return String.valueOf(characters);
+    }
+
+    public static void updateProperty(String key, String value) throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("properties.properties"));
+        properties.setProperty(key, value);
+        properties.save(new ObjectOutputStream(new FileOutputStream("properties.properties")), "");
     }
 }
