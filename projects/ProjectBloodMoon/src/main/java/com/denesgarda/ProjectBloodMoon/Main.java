@@ -41,8 +41,11 @@ public class Main {
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 File pkg = new File("package.zip");
-                if(pkg.exists()) {
-                    pkg.delete();
+                File bat = new File("update.bat");
+                if(!bat.exists()) {
+                    if (pkg.exists()) {
+                        pkg.delete();
+                    }
                 }
                 System.out.println("Closing connection...");
                 try {
