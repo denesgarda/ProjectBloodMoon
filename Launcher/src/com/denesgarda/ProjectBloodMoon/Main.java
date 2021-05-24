@@ -15,17 +15,15 @@ public class Main {
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version = 0;
-    public static double launcherVersion = 1.0;
+    public static double launcherVersion = 1.1;
 
     public static void main(String[] args) {
         logger.info("Project: Blood Moon, by DJHK");
         System.out.println("Connecting to server...");
         try {
-            Properties gameProperties = new Properties();
-            gameProperties.load(new FileInputStream("game.properties"));
             Properties properties = new Properties();
             properties.load(new FileInputStream("properties.properties"));
-            version = Double.parseDouble(gameProperties.getProperty("version"));
+            version = Double.parseDouble(properties.getProperty("version"));
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + decrypt(properties.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -74,8 +72,8 @@ public class Main {
                 FileOutputStream fos = new FileOutputStream("ProjectBloodMoon.jar");
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
-                gameProperties.setProperty("version", rs.getString("version"));
-                gameProperties.save(new ObjectOutputStream(new FileOutputStream("game.properties")), "");
+                properties.setProperty("version", rs.getString("version"));
+                properties.save(new ObjectOutputStream(new FileOutputStream("game.properties")), "");
 
                 System.out.println("Update finished.");
             }

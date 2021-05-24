@@ -22,11 +22,9 @@ public class Main {
         logger.info("Project: Blood Moon, by DJHK");
         System.out.println("Connecting to server...");
         try {
-            Properties gameProperties = new Properties();
-            gameProperties.load(new FileInputStream("game.properties"));
             Properties properties = new Properties();
             properties.load(new FileInputStream("properties.properties"));
-            version = Double.parseDouble(gameProperties.getProperty("version"));
+            version = Double.parseDouble(properties.getProperty("version"));
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + decrypt(properties.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
