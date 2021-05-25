@@ -30,4 +30,4 @@ If it says "bad interpreter: /bin/bash^M: no such file or directory" when you tr
 
 Then the file should run without problems.
 ## For Linux users
-If you're using Linux, then you probably know how to run a .jar file, or just run start_on_linux.sh.
+If you're using Linux, then you probably know how to run a .sh file...
