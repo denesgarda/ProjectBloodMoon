@@ -99,9 +99,9 @@ public class Main {
 
                 File packageZip = new File("ProjectBloodMoon/package.zip");
                 packageZip.delete();
+                Utility.setPropertyDown("vwu", "true");
             }
 
-            Utility.setPropertyDown("vwu", "true");
             System.exit(100);
         }
         else {
