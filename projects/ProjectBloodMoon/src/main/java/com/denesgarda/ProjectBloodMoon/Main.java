@@ -21,25 +21,6 @@ public class Main {
             version = Double.parseDouble(Utility.getProperty("version"));
             logger.info("Project: Blood Moon, by DJHK, beta" + version);
 
-            //Finalize update
-            File file = new File("Updater.jar");
-            if(file.exists()) {
-                System.out.println("Finalizing update...");
-                file.delete();
-                File bat = new File("update.bat");
-                bat.delete();
-                File command = new File("update.command");
-                command.delete();
-                File sh = new File("update.sh");
-                sh.delete();
-                File pkg = new File("package.zip");
-                if(!pkg.delete()) {
-                    System.out.println("Could not delete the file \"package.zip\"! Please delete it manually then press [ENTER] to continue.");
-                }
-
-                Utility.setProperty("vwu", "true");
-            }
-
             //Connect
             System.out.println("Connecting to server...");
             conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + Utility.decrypt(Utility.getProperty("enc")));
@@ -62,33 +43,8 @@ public class Main {
             ResultSet rs = stmt.executeQuery();
             rs.last();
             if(!(version >= Double.parseDouble(rs.getString("version")))) {
-                System.out.println("Outdated version detected.");
-                System.out.println("Preparing update...");
-
-                String query2 = "SELECT link FROM pbm.versions WHERE version = \"" + rs.getString("version") + "\"";
-                PreparedStatement stmt2 = conn.prepareStatement(query2, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
-                ResultSet rs2 = stmt2.executeQuery();
-                rs2.last();
-                String pkg = rs2.getString("link");
-
-                String query3 = "SELECT * FROM pbm.updater";
-                PreparedStatement stmt3 = conn.prepareStatement(query3);
-                ResultSet rs3 = stmt3.executeQuery();
-                rs3.next();
-
-                String[] queue = {rs3.getString("jar"), rs3.getString("bat"), rs3.getString("command"), rs3.getString("sh"), pkg};
-
-                System.out.println("Updating...");
-
-                new File("package.zip").createNewFile();
-
-                Utility.download(queue[0], "Updater.jar");
-                Utility.download(queue[1], "update.bat");
-                Utility.download(queue[2], "update.command");
-                Utility.download(queue[3], "update.sh");
-                Utility.download(queue[4], "package.zip");
-
-                System.exit(100);
+                System.out.println("Outdated version detected. Please update!");
+                System.exit(0);
             }
 
             //Check connection
