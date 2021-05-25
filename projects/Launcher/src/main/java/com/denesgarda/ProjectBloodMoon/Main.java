@@ -37,10 +37,27 @@ public class Main {
             System.exit(0);
         }
 
+        //Check version
+        System.out.println("Checking version...");
+        Statement stmt3 = conn.createStatement();
+        String query3 = "SELECT version FROM pbm.launcher";
+        ResultSet rs3 = stmt3.executeQuery(query3);
+        rs3.next();
+        double currentVersion = Double.parseDouble(Utility.getProperty("launcherversion"));
+        double latestVersion = Double.parseDouble(rs3.getString("version"));
+        if(currentVersion < latestVersion) {
+            Statement stmt = conn.createStatement();
+            String query = "SELECT link FROM pbm.launcher WHERE version = \"" + latestVersion + "\"";
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            String link = rs.getString("link");
+            System.out.println("You are using an outdated package. Please download the newest one here: " + link);
+            System.exit(0);
+        }
+
         //Check if game exists
         File file = new File("ProjectBloodMoon");
         if(file.exists()) {
-            System.out.println("Checking version...");
             String query = "SELECT version FROM pbm.versions";
             PreparedStatement stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
