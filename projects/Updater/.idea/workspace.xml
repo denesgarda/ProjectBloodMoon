@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Updater:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="24a61571-f087-4cf1-abcd-ccbabe969a46" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../builds/download/Launcher.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../builds/download/Launcher.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../builds/versions/beta0.8/ProjectBloodMoon.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../builds/versions/beta0.8/ProjectBloodMoon_beta0.8.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../builds/versions/beta0.8/properties.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../builds/versions/temp/ProjectBloodMoon.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../builds/versions/temp/ProjectBloodMoon.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Launcher/src/main/java/com/denesgarda/ProjectBloodMoon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Launcher/src/main/java/com/denesgarda/ProjectBloodMoon/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Launcher/target/classes/com/denesgarda/ProjectBloodMoon/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Launcher/target/classes/com/denesgarda/ProjectBloodMoon/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectBloodMoon/src/main/java/com/denesgarda/ProjectBloodMoon/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectBloodMoon/src/main/java/com/denesgarda/ProjectBloodMoon/Main.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1szy5nh8vClE9ho16gGkq9iomsB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dependencies/zip4j-2.7.0-javadoc.jar.jar" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.16094987" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="24a61571-f087-4cf1-abcd-ccbabe969a46" name="Default Changelist" comment="" />
+      <created>1621889533109</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621889533109</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
