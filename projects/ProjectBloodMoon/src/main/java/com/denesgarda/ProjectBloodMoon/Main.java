@@ -1,5 +1,6 @@
 package com.denesgarda.ProjectBloodMoon;
 
+import com.denesgarda.ProjectBloodMoon.game.Game;
 import com.denesgarda.ProjectBloodMoon.utility.Utility;
 
 import java.io.*;
@@ -31,6 +32,10 @@ public class Main {
                 command.delete();
                 File sh = new File("update.sh");
                 sh.delete();
+                File pkg = new File("package.zip");
+                if(!pkg.delete()) {
+                    System.out.println("Could not delete the file \"package.zip\"! Please delete it manually then press [ENTER] to continue.");
+                }
 
                 Utility.setProperty("vwu", "true");
             }
@@ -113,18 +118,18 @@ public class Main {
                 System.out.println("\nUpdate complete! Updated to beta" + Utility.getProperty("version"));
                 System.out.println("""
                         What's new?
-                            - Renewed everything
+                            - Completely changed the way updates work
+                            - Made it so you don't have to reinstall the game when you have an expired package
+                            - Added more dialogue
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 Utility.setProperty("vwu", "false");
             }
 
             //Launch game
-            System.out.println("LAUNCHING GAME!");
-            System.exit(0);
+            Game.game();
         }
         catch(FileNotFoundException e) {
-            e.printStackTrace();
             System.out.println("Required files are missing. Cannot run game.");
             System.exit(0);
         }
