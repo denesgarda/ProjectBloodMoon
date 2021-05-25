@@ -39,7 +39,10 @@ public class Game {
             String loginSignupInput = Main.consoleInput.readLine();
             if(loginSignupInput.equalsIgnoreCase("1")) {
                 username = login();
-                if(username != null) {
+                if(username.equals("admin")) {
+                    System.out.println("CANNOT LOG IN TO ADMIN ACCOUNT THIS WAY");
+                }
+                else if(username != null) {
                     mainMenuLoop:
                     while(true) {
                         System.out.println("""
@@ -496,6 +499,16 @@ public class Game {
             }
             else if(loginSignupInput.equalsIgnoreCase("/inventory")) {
                 System.out.println("Cannot view inventory because you are not in a game.");
+            }
+            else if(loginSignupInput.equalsIgnoreCase("/adm")) {
+                String password = PasswordField.readPassword("Enter password: ");
+                if(password.equals(getPassword("admin"))) {
+                    System.out.println("ADMIN ACCOUNT CANNOT BE ACTIVATED AT THIS TIME");
+                    username = "admin";
+                }
+                else {
+                    System.out.println("Incorrect password!");
+                }
             }
             else invalid();
         }
