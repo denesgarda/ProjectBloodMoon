@@ -70,6 +70,7 @@ public class Main {
             timer.scheduleAtFixedRate(timerTask, 10000, 10000);
 
             //Show news
+            System.out.println(Boolean.parseBoolean(Utility.getProperty("vwu")));
             if(Boolean.parseBoolean(Utility.getProperty("vwu"))) {
                 System.out.println("\nUpdate complete! Updated to beta" + Utility.getProperty("version"));
                 System.out.println("""
