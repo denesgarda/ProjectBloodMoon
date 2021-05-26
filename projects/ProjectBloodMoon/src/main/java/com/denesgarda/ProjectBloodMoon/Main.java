@@ -2,6 +2,7 @@ package com.denesgarda.ProjectBloodMoon;
 
 import com.denesgarda.ProjectBloodMoon.game.Game;
 import com.denesgarda.ProjectBloodMoon.utility.Utility;
+import com.denesgarda.Prop4j.data.PropertiesFile;
 
 import java.io.*;
 import java.sql.*;
@@ -14,16 +15,17 @@ public class Main {
     public static Logger logger = Logger.getLogger(Main.class.getName());
     public static BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in));
     public static double version;
+    public static PropertiesFile properties = new PropertiesFile("properties.properties");
 
     public static void main(String[] args) throws IOException {
         try {
             //Set version
-            version = Double.parseDouble(Utility.getProperty("version"));
+            version = Double.parseDouble(properties.getProperty("version"));
             logger.info("Project: Blood Moon, by DJHK, beta" + version);
 
             //Connect
             System.out.println("Connecting to server...");
-            conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + Utility.decrypt(Utility.getProperty("enc")));
+            conn = DriverManager.getConnection("jdbc:mysql://98.164.253.104:3306/pbm?user=pbm&password=" + Utility.decrypt(properties.getProperty("enc")));
             java.sql.Connection finalConn = conn;
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("Closing connection...");
@@ -70,14 +72,14 @@ public class Main {
             timer.scheduleAtFixedRate(timerTask, 10000, 10000);
 
             //Show news
-            if(Boolean.parseBoolean(Utility.getProperty("vwu"))) {
-                System.out.println("\nUpdate complete! Updated to beta" + Utility.getProperty("version"));
+            if(Boolean.parseBoolean(properties.getProperty("vwu"))) {
+                System.out.println("\nUpdate complete! Updated to beta" + properties.getProperty("version"));
                 System.out.println("""
-                        What's new since beta0.81?
-                            - Minor bug fixes
+                        What's new since beta0.82?
+                            - File reading and writing changes
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
-                Utility.setProperty("vwu", "false");
+                properties.setProperty("vwu", "false");
             }
 
             //Launch game
