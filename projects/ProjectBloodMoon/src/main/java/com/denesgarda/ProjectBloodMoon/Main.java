@@ -73,10 +73,8 @@ public class Main {
             if(Boolean.parseBoolean(Utility.getProperty("vwu"))) {
                 System.out.println("\nUpdate complete! Updated to beta" + Utility.getProperty("version"));
                 System.out.println("""
-                        What's new?
-                            - Completely changed the way updates work
-                            - Made it so you don't have to reinstall the game when you have an expired package
-                            - Added more dialogue
+                        What's new since beta0.81?
+                            - Minor bug fixes
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 Utility.setProperty("vwu", "false");
