@@ -90,6 +90,18 @@ public class Strings {
 
     public static void youDied() throws IOException {
         System.out.println("You died!\n(Press [ENTER] to go back to checkpoint)");
-        Main.consoleInput.readLine();
+        String choiceString = Main.consoleInput.readLine();
+        if(choiceString.equalsIgnoreCase("/exit")) {
+            Game.exit();
+        }
+        else if(choiceString.equalsIgnoreCase("/quit")) {
+            System.out.println("Cannot quit at this moment!");
+        }
+        else if(choiceString.equalsIgnoreCase("/stats")) {
+            Game.stats.printStats();
+        }
+        else if(choiceString.equalsIgnoreCase("/inventory")) {
+            Game.stats.printInventory();
+        }
     }
 }
