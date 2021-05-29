@@ -54,7 +54,7 @@ public class Game {
                         3) How to play (Important!)
                         4) Log out
                         5) Account options
-                        ps. Type "/exit" at any time to save and exit.""");
+                        ps. Type "/quit" at any time to quit to the main menu.""");
                         String mainMenuInput = Main.consoleInput.readLine();
                         if (mainMenuInput.equalsIgnoreCase("1")) {
                             boolean continueToGame = false;

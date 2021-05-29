@@ -75,8 +75,10 @@ public class Main {
             if(Boolean.parseBoolean(properties.getProperty("vwu"))) {
                 System.out.println("\nUpdate complete! Updated to beta" + properties.getProperty("version"));
                 System.out.println("""
-                        What's new since beta0.82?
+                        What's new since beta0.83?
                             - File reading and writing changes
+                            - Bug fixes
+                            - Changed the note on the main menu
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");

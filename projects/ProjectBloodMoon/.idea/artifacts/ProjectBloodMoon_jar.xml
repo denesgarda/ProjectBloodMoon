@@ -2,12 +2,15 @@
   <artifact type="jar" name="ProjectBloodMoon:jar">
     <output-path>$PROJECT_DIR$/../../builds/versions/temp</output-path>
     <root id="archive" name="ProjectBloodMoon.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="ProjectBloodMoon" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/Prop4j_1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/mysql-connector-java-8.0.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/21.0.0/annotations-21.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/javax.mail.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/javax.activation-1.2.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/21.0.0/annotations-21.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/mysql-connector-java-8.0.25.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/../dependencies/Prop4j_1.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
