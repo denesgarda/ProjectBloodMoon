@@ -35,7 +35,9 @@ public class Game {
                     1) Login
                     2) Signup
                     3) Quit
-                    4) Forgot password""");
+                    4) Forgot password
+                    5) Forgot username
+                    6) Forgot email""");
             String loginSignupInput = Main.consoleInput.readLine();
             if(loginSignupInput.equalsIgnoreCase("1")) {
                 username = login();
@@ -486,6 +488,44 @@ public class Game {
                 }
                 else {
                     System.out.println("That email is not found in our system.");
+                }
+            }
+            else if(loginSignupInput.equals("5")) {
+                System.out.print("Forgot username\nEmail: ");
+                String email = Main.consoleInput.readLine();
+                System.out.println("Fetching info...");
+                Statement stmt = Main.conn.createStatement();
+                String query = "SELECT * FROM pbm.accounts WHERE email = \"" + email + "\"";
+                ResultSet rs = stmt.executeQuery(query);
+                if (rs.next()) {
+                    Statement stmt2 = Main.conn.createStatement();
+                    String query2 = "SELECT username FROM pbm.accounts WHERE email = \"" + email + "\"";
+                    ResultSet rs2 = stmt2.executeQuery(query2);
+                    rs2.next();
+                    System.out.println("The username connected to that account is: " + rs2.getString("username") + "\n(Press [ENTER] to continue)");
+                    Main.consoleInput.readLine();
+                }
+                else {
+                    System.out.println("That email is not found in our system.");
+                }
+            }
+            else if(loginSignupInput.equals("6")) {
+                System.out.print("Forgot email\nUsername: ");
+                String username = Main.consoleInput.readLine();
+                System.out.println("Fetching info...");
+                Statement stmt = Main.conn.createStatement();
+                String query = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
+                ResultSet rs = stmt.executeQuery(query);
+                if (rs.next()) {
+                    Statement stmt2 = Main.conn.createStatement();
+                    String query2 = "SELECT email FROM pbm.accounts WHERE username = \"" + username + "\"";
+                    ResultSet rs2 = stmt2.executeQuery(query2);
+                    rs2.next();
+                    System.out.println("The email connected to that account is: " + rs2.getString("email") + "\n(Press [ENTER] to continue)");
+                    Main.consoleInput.readLine();
+                }
+                else {
+                    System.out.println("That username is not found in our system.");
                 }
             }
             else if(loginSignupInput.equalsIgnoreCase("/exit")) {

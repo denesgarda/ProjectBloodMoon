@@ -79,6 +79,8 @@ public class Main {
                             - File reading and writing changes
                             - Bug fixes
                             - Changed the note on the main menu
+                            - Added forgot username option
+                            - Added forgot email option
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");
