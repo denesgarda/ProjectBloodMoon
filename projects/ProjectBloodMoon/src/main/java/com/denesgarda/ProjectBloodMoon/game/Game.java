@@ -1,9 +1,11 @@
 package com.denesgarda.ProjectBloodMoon.game;
 
+import com.denesgarda.JarData.data.statics.Serialization;
 import com.denesgarda.ProjectBloodMoon.Main;
 import com.denesgarda.ProjectBloodMoon.game.data.PasswordField;
 import com.denesgarda.ProjectBloodMoon.game.data.Stats;
 import com.denesgarda.ProjectBloodMoon.game.data.Strings;
+import com.denesgarda.ProjectBloodMoon.utility.Utility;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -23,7 +25,6 @@ import java.util.TimerTask;
 public class Game {
     public static String username;
     public static Stats stats;
-    public static int progress;
     public static Random random = new Random();
 
     public static void game() throws IOException, SQLException {
@@ -126,11 +127,11 @@ public class Game {
                                 }
                                 if (continueToGame) {
                                     System.out.println("Loading...\n");
-                                    stats = new Stats(username);
-                                    progress = Integer.parseInt(getProgress(username));
+                                    int progress = stats.getProgress();
 
                                     gameLoop:
                                     while (true) {
+                                        int last = 100;
                                         if (progress == 0) {
                                             stats.setHP(100);
                                             if (Strings.println("You wake up...\n(Press [ENTER] to continue)")) break;
@@ -165,10 +166,11 @@ public class Game {
                                             if (Strings.println("You start to head off into the depths of the dark oak forest with your group of friends."))
                                                 break;
                                             progress = 1;
-                                            saveAtCheckpoint();
+                                            Utility.saveStats(stats);
+                                            last = stats.getProgress();
                                         }
                                         if (progress == 1) {
-                                            stats.retrieveAndSetHp();
+                                            stats.setProgress(last);
                                             if (Strings.println("You walk with the group for a while.")) break;
                                             if (Strings.println("The sun gets higher and higher in the sky.")) break;
                                             if (Strings.println("You're still familiar with where you are. You've explored so much of this place, that you still recognize everything around you even this far out."))
@@ -284,10 +286,11 @@ public class Game {
                                                 break;
                                             stats.resetHP();
                                             progress = 2;
-                                            saveAtCheckpoint();
+                                            Utility.saveStats(stats);
+                                            last = stats.getProgress();
                                         }
                                         if (progress == 2) {
-                                            stats.retrieveAndSetHp();
+                                            stats.setProgress(last);
                                             if (Strings.println("You continue deeper and deeper into the cave..."))
                                                 break;
                                             if (Strings.println("You see light up ahead.")) break;
@@ -549,25 +552,10 @@ public class Game {
         System.out.println("Thank you for playing! Bye...");
         System.exit(0);
     }
-    public static void saveAtCheckpoint() {
-        System.out.println("Checkpoint reached!\nSaving progress! Please wait...");
-        try {
-            String query = "UPDATE pbm.accounts SET progress = \"" + progress + "\"";
-            PreparedStatement stmt = Main.conn.prepareStatement(query);
-            stmt.executeUpdate();
-            stats.saveStats();
-            System.out.println("Progress saved!\n");
-        }
-        catch(Exception e) {
-            System.out.println("WARNING: Unable to save game");
-        }
-    }
 
     public static String login() throws IOException, SQLException {
         System.out.print("Username: ");
         String username = Main.consoleInput.readLine();
-        //System.out.print("Password: ");
-        //String password = Main.consoleInput.readLine();
         String password = PasswordField.readPassword("Password: ");
         System.out.println("Logging in...");
 
@@ -576,6 +564,7 @@ public class Game {
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             if(rs.getString("password").equals(password)) {
+                stats = Utility.generateStats(username);
                 return username;
             }
             else {
@@ -635,13 +624,14 @@ public class Game {
                                 4) Beastmen""");
                         String race = Main.consoleInput.readLine();
                         if ((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
-                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp, stats) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                             PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                             stmt3.setString(1, username);
                             stmt3.setString(2, password);
                             stmt3.setString(3, email);
                             stmt3.setString(6, "0");
                             stmt3.setString(7, "100");
+                            stmt3.setString(8, Serialization.serialize(new Stats(100, new String[]{}, 0)).getData());
                             if (gender.equalsIgnoreCase("1")) {
                                 stmt3.setString(4, "male");
                             } else if (gender.equalsIgnoreCase("2")) {
@@ -693,9 +683,8 @@ public class Game {
     }
 
     public static void resetProgress(String username) throws SQLException {
-        String query = "UPDATE pbm.accounts SET progress = \"0\" WHERE username = \"" + username + "\"";
-        PreparedStatement stmt = Main.conn.prepareStatement(query);
-        stmt.executeUpdate();
+        stats.setProgress(0);
+        Utility.saveStats(stats);
     }
 
     public static boolean checkIfEmailExists(String email) throws SQLException {
