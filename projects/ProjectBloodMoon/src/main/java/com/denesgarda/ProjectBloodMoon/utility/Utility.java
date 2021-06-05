@@ -54,9 +54,15 @@ public class Utility {
 
         return (Stats) new Serialized(rs2.getString("stats")).deSerialize();
     }
-    public static void saveStats(Stats stats) throws SQLException {
-        String query = "UPDATE pbm.accounts SET stats = \"" + Serialization.serialize(stats).getData() + "\"";
+    public static void saveStats(Stats stats, String username) throws SQLException {
+        String query = "UPDATE pbm.accounts SET stats = \"" + Serialization.serialize(stats).getData() + "\" WHERE username = \"" + username + "\"";
         PreparedStatement stmt = Main.conn.prepareStatement(query);
         stmt.executeUpdate();
+    }
+
+    public static void checkpoint(Stats stats, String username) throws SQLException {
+        System.out.println("Checkpoint reached.\nSaving stats. Please wait...");
+        saveStats(stats, username);
+        System.out.println("Progress saved!\n");
     }
 }

@@ -65,7 +65,7 @@ public class Game {
                                 infoLoop:
                                 while (true) {
                                     System.out.println("Fetching game info...");
-                                    String progress = getProgress(username);
+                                    String progress = String.valueOf(stats.getProgress());
                                     if (progress.equalsIgnoreCase("0")) {
                                         while (true) {
                                             System.out.println("""
@@ -105,7 +105,7 @@ public class Game {
                                                 String cont = PasswordField.readPassword("Password: ");
                                                 if (cont.equalsIgnoreCase(getPassword(username))) {
                                                     System.out.println("Resetting progress...");
-                                                    resetProgress(username);
+                                                    resetProgress();
                                                     break;
                                                 } else {
                                                     System.out.println("Incorrect password.");
@@ -127,12 +127,10 @@ public class Game {
                                 }
                                 if (continueToGame) {
                                     System.out.println("Loading...\n");
-                                    int progress = stats.getProgress();
 
                                     gameLoop:
                                     while (true) {
-                                        int last = 100;
-                                        if (progress == 0) {
+                                        if (stats.getProgress() == 0) {
                                             stats.setHP(100);
                                             if (Strings.println("You wake up...\n(Press [ENTER] to continue)")) break;
                                             if (Strings.println("\"Come now, breakfast is ready!\" Your mom calls you out to the living room for breakfast."))
@@ -165,12 +163,11 @@ public class Game {
                                             }
                                             if (Strings.println("You start to head off into the depths of the dark oak forest with your group of friends."))
                                                 break;
-                                            progress = 1;
-                                            Utility.saveStats(stats);
-                                            last = stats.getProgress();
+                                            stats.setProgress(1);
+                                            Utility.checkpoint(stats, username);
                                         }
-                                        if (progress == 1) {
-                                            stats.setProgress(last);
+                                        if (stats.getProgress() == 1) {
+                                            stats = Utility.generateStats(username);
                                             if (Strings.println("You walk with the group for a while.")) break;
                                             if (Strings.println("The sun gets higher and higher in the sky.")) break;
                                             if (Strings.println("You're still familiar with where you are. You've explored so much of this place, that you still recognize everything around you even this far out."))
@@ -285,12 +282,11 @@ public class Game {
                                             if (Strings.println("You suddenly feel a force. You feel rejuvenated. All of your cuts and scratches heal up, almost like it's magic..."))
                                                 break;
                                             stats.resetHP();
-                                            progress = 2;
-                                            Utility.saveStats(stats);
-                                            last = stats.getProgress();
+                                            stats.setProgress(2);
+                                            Utility.checkpoint(stats, username);
                                         }
-                                        if (progress == 2) {
-                                            stats.setProgress(last);
+                                        if (stats.getProgress() == 2) {
+                                            stats = Utility.generateStats(username);
                                             if (Strings.println("You continue deeper and deeper into the cave..."))
                                                 break;
                                             if (Strings.println("You see light up ahead.")) break;
@@ -301,8 +297,7 @@ public class Game {
                                             if (Strings.println("All noise cuts out around you.")) break;
                                             if (Strings.println("You're getting pulled in by the temptation...")) break;
                                             if (Strings.println("You touch the liquid and you make a wish.")) break;
-                                            if (Strings.println("You're wish is to protect your mother at all costs."))
-                                                break;
+                                            if (Strings.println("You're wish is to protect your mother at all costs.")) break;
                                             break;
                                         }
                                     }
@@ -624,14 +619,12 @@ public class Game {
                                 4) Beastmen""");
                         String race = Main.consoleInput.readLine();
                         if ((gender.equalsIgnoreCase("1") || gender.equalsIgnoreCase("2")) && (race.equalsIgnoreCase("1") || race.equalsIgnoreCase("2") || race.equalsIgnoreCase("3") || race.equalsIgnoreCase("4"))) {
-                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, progress, hp, stats) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                            String query3 = "INSERT INTO pbm.accounts (username, password, email, gender, race, stats) VALUES (?, ?, ?, ?, ?, ?)";
                             PreparedStatement stmt3 = Main.conn.prepareStatement(query3);
                             stmt3.setString(1, username);
                             stmt3.setString(2, password);
                             stmt3.setString(3, email);
-                            stmt3.setString(6, "0");
-                            stmt3.setString(7, "100");
-                            stmt3.setString(8, Serialization.serialize(new Stats(100, new String[]{}, 0)).getData());
+                            stmt3.setString(6, Serialization.serialize(new Stats(100, new String[]{}, 0)).getData());
                             if (gender.equalsIgnoreCase("1")) {
                                 stmt3.setString(4, "male");
                             } else if (gender.equalsIgnoreCase("2")) {
@@ -682,9 +675,11 @@ public class Game {
         return rs.getString("password");
     }
 
-    public static void resetProgress(String username) throws SQLException {
+    public static void resetProgress() throws SQLException {
         stats.setProgress(0);
-        Utility.saveStats(stats);
+        stats.setHP(100);
+        stats.setInventory(new String[]{});
+        Utility.saveStats(stats, username);
     }
 
     public static boolean checkIfEmailExists(String email) throws SQLException {

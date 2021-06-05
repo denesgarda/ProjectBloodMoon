@@ -4,6 +4,7 @@ import com.denesgarda.ProjectBloodMoon.Main;
 import com.denesgarda.ProjectBloodMoon.game.Game;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,8 @@ public class Stats implements Serializable {
     private double hP;
     private String[] inventory;
     private int progress;
+    @Serial
+    private static final long serialVersionUID = 42L;
 
     public Stats(double hP, String[] inventory, int progress) throws SQLException {
         this.hP = hP;
