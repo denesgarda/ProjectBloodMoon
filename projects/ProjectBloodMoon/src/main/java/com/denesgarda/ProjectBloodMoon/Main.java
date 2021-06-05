@@ -81,6 +81,7 @@ public class Main {
                             - Changed the note on the main menu
                             - Added forgot username option
                             - Added forgot email option
+                            - Changed the way saved stats work
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");

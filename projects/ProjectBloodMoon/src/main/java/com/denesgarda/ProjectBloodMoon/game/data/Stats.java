@@ -4,39 +4,33 @@ import com.denesgarda.ProjectBloodMoon.Main;
 import com.denesgarda.ProjectBloodMoon.game.Game;
 
 import java.io.IOException;
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 
-public class Stats {
+public class Stats implements Serializable {
     private double hP;
     private String[] inventory;
+    private int progress;
+    @Serial
+    private static final long serialVersionUID = 42L;
 
-    public Stats(String username) throws SQLException {
-        Statement stmt = Main.conn.createStatement();
-        String query = "SELECT hp FROM pbm.accounts WHERE username = \"" + username + "\"";
-        ResultSet rs = stmt.executeQuery(query);
-
-        rs.next();
-
-        String hP = rs.getString("hp");
-        this.hP = Double.parseDouble(hP);
-
-        Statement stmt2 = Main.conn.createStatement();
-        String query2 = "SELECT inventory FROM pbm.accounts WHERE username = \"" + username + "\"";
-        ResultSet rs2 = stmt2.executeQuery(query2);
-
-        rs2.next();
-
-        String inventoryString = rs2.getString("inventory");
-        this.inventory = Strings.stringToArray(inventoryString);
+    public Stats(double hP, String[] inventory, int progress) throws SQLException {
+        this.hP = hP;
+        this.inventory = inventory;
+        this.progress = progress;
     }
-    public void saveStats() throws SQLException {
-        String query = "UPDATE pbm.accounts SET hp = \"" + this.hP + "\", inventory = \"" + Arrays.toString(this.inventory).substring(1, Arrays.toString(this.inventory).length() - 1) + "\"";
-        PreparedStatement stmt = Main.conn.prepareStatement(query);
-        stmt.executeUpdate();
+
+    public int getProgress() {
+        return this.progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 
     public void printStats() {
