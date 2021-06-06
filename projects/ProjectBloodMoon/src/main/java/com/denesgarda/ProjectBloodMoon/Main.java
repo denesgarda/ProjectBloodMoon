@@ -84,6 +84,7 @@ public class Main {
                             - Changed the way saved stats work
                             - Fixed uppercase and lowercase errors
                             - Added account deletion feedback
+                            - Added more dialogue
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");

@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Game {
     public static String username;
@@ -307,24 +309,124 @@ public class Game {
                                             if (Strings.println("But as soon as you look back, it's already gone!")) break;
                                             if (Strings.println("You can kind of make out what it is, though.")) break;
                                             if (Strings.println("It looks like some sort of... pixie.")) break;
-                                            if (Strings.println("It's probably going to try to fly by you again, so try to catch it. Press enter when it comes by.")) break;
-                                            /*boolean here = false;
+                                            System.out.println("It's probably going to try to fly by you again, so try to catch it. Press [ENTER] when it comes by.");
+                                            AtomicBoolean here = new AtomicBoolean(false);
+                                            Timer pixiePromptTimer = new Timer();
                                             TimerTask pixiePrompt = new TimerTask() {
                                                 @Override
                                                 public void run() {
                                                     try {
-                                                        Thread.sleep((random.nextInt(6) + 4)*1000);
-                                                        here = true;
+                                                        here.set(true);
+                                                        System.out.println("Here it is! Press [ENTER] to catch it!");
+                                                        Thread.sleep(1000);
+                                                        here.set(false);
                                                     }
                                                     catch (InterruptedException e) {
                                                         e.printStackTrace();
                                                     }
                                                 }
                                             };
-                                            pixiePrompt.run();
+                                            pixiePromptTimer.schedule(pixiePrompt, (random.nextInt(5) + 5) * 1000);
                                             while(true) {
-
-                                            }*/
+                                                Main.consoleInput.readLine();
+                                                if(here.get()) {
+                                                    if (Strings.println("You caught the pixie!")) break;
+                                                    break;
+                                                }
+                                                else {
+                                                    System.out.println("You missed! Try again. Make sure to time it right.");
+                                                    pixiePromptTimer.cancel();
+                                                    pixiePromptTimer.purge();
+                                                    pixiePromptTimer = new Timer();
+                                                    pixiePrompt = new TimerTask() {
+                                                        @Override
+                                                        public void run() {
+                                                            try {
+                                                                here.set(true);
+                                                                System.out.println("\nHere it is! Press [ENTER] to catch it!");
+                                                                Thread.sleep(1000);
+                                                                here.set(false);
+                                                            }
+                                                            catch (InterruptedException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                    };
+                                                    pixiePromptTimer.schedule(pixiePrompt, (random.nextInt(6) + 4) * 1000);
+                                                }
+                                            }
+                                            if (Strings.println("You see it struggling to get free in your hands.")) break;
+                                            if (Strings.println("You try to calm it down...")) break;
+                                            if (Strings.println("It finally speaks to you.")) break;
+                                            if (Strings.println("[Pixie]: What are you doing down here?")) break;
+                                            if (Strings.println("[Pixie]: How did you even get here?")) break;
+                                            if (Strings.println("[You]: Erm... I...")) break;
+                                            if (Strings.println("[Pixie]: It doesn't matter... What do you want from me?")) break;
+                                            if (Strings.println("[You]: You came up to me!")) break;
+                                            if (Strings.println("[Pixie]: Right... I guess I got myself into this situation.")) break;
+                                            if (Strings.println("[You]: What even is this place?!")) break;
+                                            if (Strings.println("[You]: I've never someplace like it before!")) break;
+                                            if (Strings.println("[Pixie]: It's... complicated. You wouldn't understand...")) break;
+                                            if (Strings.println("[You]: Come on, tell me!")) break;
+                                            if (Strings.println("[Pixie]: Fine, later, though. We should probably get out of here as soon as possible.")) break;
+                                            if (Strings.println("[You]: What do you mea---...")) break;
+                                            if (Strings.println("You couldn't even finish your sentence, when the cave starts to rumble.")) break;
+                                            if (Strings.println("The ceiling starts to collapse!")) break;
+                                            if (Strings.println("[Pixie]: Quick! Follow me.")) break;
+                                            if (Strings.println("In all the confusion, you let go of the pixie.")) break;
+                                            if (Strings.println("You run toward the pixie as fast as you can!")) break;
+                                            if (Strings.println("Press [ENTER] as many times as you can! The more you press it, the faster you'll run!")) break;
+                                            int enterCounter = 0;
+                                            AtomicBoolean continuePrompt = new AtomicBoolean(true);
+                                            Timer afterTimer = new Timer();
+                                            TimerTask after = new TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        continuePrompt.set(false);
+                                                    }
+                                                    catch(Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            };
+                                            afterTimer.schedule(after, 2500);
+                                            while(true) {
+                                                Main.consoleInput.readLine();
+                                                System.out.println("...");
+                                                enterCounter++;
+                                                if(!continuePrompt.get()) {
+                                                    break;
+                                                }
+                                            }
+                                            if(enterCounter < 8) {
+                                                if (Strings.println("You got crushed by the collapsing cave.")) break;
+                                                if (stats.minusHP(100)) continue;
+                                            }
+                                            else if(enterCounter < 13) {
+                                                if (Strings.println("You get seriously hurt, but you make it out alive.")) break;
+                                                if (stats.minusHP(Utility.pickBetween(40, 65))) continue;
+                                            }
+                                            else if(enterCounter < 18) {
+                                                if (Strings.println("The cave tumbles onto you a little bit, you make it out fine!")) break;
+                                                if (stats.minusHP(Utility.pickBetween(25, 40))) continue;
+                                            }
+                                            else {
+                                                if (Strings.println("You make it out of the cave barely hurt.")) break;
+                                                if (stats.minusHP(Utility.pickBetween(3, 9))) continue;
+                                            }
+                                            Thread.sleep(2000);
+                                            System.in.read(new byte[System.in.available()]);//read and ignore
+                                            if (Strings.println("[Pixie]: You kinda suck at this...")) break;
+                                            if (Strings.println("[Pixie]: Come on, lemme heal you...")) break;
+                                            stats.resetHP();
+                                            if (Strings.println("[You]: Thanks")) break;
+                                            stats.setProgress(3);
+                                            Utility.checkpoint(stats, username);
+                                        }
+                                        if(stats.getProgress() == 3) {
+                                            stats = Utility.generateStats(username);
+                                            if (Strings.println("Thank you for playing. The rest of the game is not yet made. Come back soon!")) break;
                                             break;
                                         }
                                     }

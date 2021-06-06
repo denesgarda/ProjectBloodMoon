@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.Random;
 
 public class Utility {
     public static String decrypt(String text) {
@@ -64,5 +65,9 @@ public class Utility {
         System.out.println("Checkpoint reached.\nSaving stats. Please wait...");
         saveStats(stats, username);
         System.out.println("Progress saved!\n");
+    }
+
+    public static int pickBetween(int low, int high) {
+        return new Random().nextInt(high - low) + low;
     }
 }

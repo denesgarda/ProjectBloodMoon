@@ -97,11 +97,6 @@ public class Strings {
         else if(choiceString.equalsIgnoreCase("/quit")) {
             System.out.println("Cannot quit at this moment!");
         }
-        else if(choiceString.equalsIgnoreCase("/stats")) {
-            Game.stats.printStats();
-        }
-        else if(choiceString.equalsIgnoreCase("/inventory")) {
-            Game.stats.printInventory();
-        }
+        System.out.println("Loading...");
     }
 }
