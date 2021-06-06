@@ -27,7 +27,7 @@ public class Game {
     public static Stats stats;
     public static Random random = new Random();
 
-    public static void game() throws IOException, SQLException {
+    public static void game() throws IOException, SQLException, InterruptedException {
         loginSignup:
         while(true) {
             System.out.println("""
@@ -304,6 +304,27 @@ public class Game {
                                             if (Strings.println("You look to your left, but you hear it from your right!")) break;
                                             if (Strings.println("Then, whatever it is flies right in front of your face!")) break;
                                             if (Strings.println("You jump back in surprise.")) break;
+                                            if (Strings.println("But as soon as you look back, it's already gone!")) break;
+                                            if (Strings.println("You can kind of make out what it is, though.")) break;
+                                            if (Strings.println("It looks like some sort of... pixie.")) break;
+                                            if (Strings.println("It's probably going to try to fly by you again, so try to catch it. Press enter when it comes by.")) break;
+                                            /*boolean here = false;
+                                            TimerTask pixiePrompt = new TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        Thread.sleep((random.nextInt(6) + 4)*1000);
+                                                        here = true;
+                                                    }
+                                                    catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            };
+                                            pixiePrompt.run();
+                                            while(true) {
+
+                                            }*/
                                             break;
                                         }
                                     }
