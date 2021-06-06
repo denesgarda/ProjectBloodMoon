@@ -82,6 +82,7 @@ public class Main {
                             - Added forgot username option
                             - Added forgot email option
                             - Changed the way saved stats work
+                            - Fixed uppercase and lowercase errors
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");

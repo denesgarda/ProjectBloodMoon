@@ -555,7 +555,7 @@ public class Game {
         System.out.println("Logging in...");
 
         Statement stmt = Main.conn.createStatement();
-        String query = "SELECT password FROM pbm.accounts WHERE username = \"" + username + "\"";
+        String query = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             if(rs.getString("password").equals(password)) {
@@ -577,8 +577,6 @@ public class Game {
         String email = Main.consoleInput.readLine();
         System.out.print("Username: ");
         String username = Main.consoleInput.readLine();
-        //System.out.print("Password: ");
-        //String password = Main.consoleInput.readLine();
         String password = PasswordField.readPassword("Password: ");
         String confirm = PasswordField.readPassword("Confirm password: ");
         if(password.equals(confirm)) {
