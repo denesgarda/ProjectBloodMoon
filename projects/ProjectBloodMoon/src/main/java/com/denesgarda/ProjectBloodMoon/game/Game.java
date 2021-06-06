@@ -394,7 +394,9 @@ public class Game {
                                             System.out.println("Passwords do not match! Please try again.");
                                         }
                                     } else if (accountOptionsInput.equalsIgnoreCase("4")) {
-                                        System.out.println("If you delete your account, everything will be lost!");
+                                        System.out.print("We're sad to see you go... Why are you deleting your account?\nReason: ");
+                                        String reason = Main.consoleInput.readLine();
+                                        System.out.println("\nIf you delete your account, everything will be lost!");
                                         String enteredPassword = PasswordField.readPassword("Enter you password to continue: ");
                                         if (enteredPassword.equalsIgnoreCase(getPassword(username))) {
                                             System.out.println("Deleting account...");
@@ -402,6 +404,12 @@ public class Game {
                                             String query = "DELETE FROM pbm.accounts WHERE username = \"" + username + "\"";
                                             PreparedStatement stmt = Main.conn.prepareStatement(query);
                                             stmt.executeUpdate();
+
+                                            String query2 = "INSERT INTO pbm.feedback (account, feedback) VALUES (?, ?)";
+                                            PreparedStatement stmt2 = Main.conn.prepareStatement(query2);
+                                            stmt2.setString(1, username);
+                                            stmt2.setString(2, reason);
+                                            stmt2.executeUpdate();
 
                                             username = "";
 
