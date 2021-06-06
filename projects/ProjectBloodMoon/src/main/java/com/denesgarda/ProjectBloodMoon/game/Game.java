@@ -688,8 +688,9 @@ public class Game {
     }
 
     public static int emailCode(String email) {
-        Random random = new Random();
-        int number = Integer.parseInt(String.format("%06d", random.nextInt(999999)));
+        /*Random random = new Random();
+        int number = Integer.parseInt(String.format("%06d", random.nextInt(999999)));*/
+        int number = generateRandom6DigitCode();
 
         String from = "projectbloodmoon.services";
         String pass = "dpassgmail";
@@ -700,6 +701,16 @@ public class Game {
         sendFromGMail(from, pass, to, subject, body);
 
         return number;
+    }
+    public static int generateRandom6DigitCode() {
+        Random random = new Random();
+        String[] numbers = new String[]{"0", "0", "0", "0", "0", "0"};
+        String stringResult = "";
+        for(String number : numbers) {
+            number = String.valueOf(random.nextInt(10));
+            stringResult += (number);
+        }
+        return Integer.parseInt(stringResult);
     }
 
     public static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
