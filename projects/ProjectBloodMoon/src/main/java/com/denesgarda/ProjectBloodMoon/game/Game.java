@@ -677,6 +677,7 @@ public class Game {
         stats.setProgress(0);
         stats.setHP(100);
         stats.setInventory(new String[]{});
+        stats.other = new String[]{};
         Utility.saveStats(stats, username);
     }
 

@@ -18,7 +18,7 @@ public class Stats implements Serializable {
     private int progress;
     @Serial
     private static final long serialVersionUID = 42L;
-    public static String[] other = {};
+    public String[] other = {};
 
     public Stats(double hP, String[] inventory, int progress) throws SQLException {
         this.hP = hP;
