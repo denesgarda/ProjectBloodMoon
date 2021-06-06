@@ -688,8 +688,6 @@ public class Game {
     }
 
     public static int emailCode(String email) {
-        /*Random random = new Random();
-        int number = Integer.parseInt(String.format("%06d", random.nextInt(999999)));*/
         int number = generateRandom6DigitCode();
 
         String from = "projectbloodmoon.services";
