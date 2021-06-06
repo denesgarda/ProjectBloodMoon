@@ -83,6 +83,7 @@ public class Main {
                             - Added forgot email option
                             - Changed the way saved stats work
                             - Fixed uppercase and lowercase errors
+                            - Added account deletion feedback
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");

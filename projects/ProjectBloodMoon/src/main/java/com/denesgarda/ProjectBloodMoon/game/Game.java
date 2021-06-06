@@ -298,6 +298,12 @@ public class Game {
                                             if (Strings.println("You're getting pulled in by the temptation...")) break;
                                             if (Strings.println("You touch the liquid and you make a wish.")) break;
                                             if (Strings.println("You're wish is to protect your mother at all costs.")) break;
+                                            if (Strings.println("Suddenly, you hear a noise!")) break;
+                                            if (Strings.println("What cloud it have been?")) break;
+                                            if (Strings.println("You look to your right, but you hear it from your left.")) break;
+                                            if (Strings.println("You look to your left, but you hear it from your right!")) break;
+                                            if (Strings.println("Then, whatever it is flies right in front of your face!")) break;
+                                            if (Strings.println("You jump back in surprise.")) break;
                                             break;
                                         }
                                     }
