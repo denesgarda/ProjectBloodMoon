@@ -75,17 +75,8 @@ public class Main {
             if(Boolean.parseBoolean(properties.getProperty("vwu"))) {
                 System.out.println("\nUpdate complete! Updated to beta" + properties.getProperty("version"));
                 System.out.println("""
-                        What's new since beta0.83?
-                            - File reading and writing changes
-                            - Bug fixes
-                            - Changed the note on the main menu
-                            - Added forgot username option
-                            - Added forgot email option
-                            - Changed the way saved stats work
-                            - Fixed uppercase and lowercase errors
-                            - Added account deletion feedback
-                            - Added more dialogue
-                            - Added information requests
+                        What's new since beta0.9?
+                            - Fixed a typo
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");
