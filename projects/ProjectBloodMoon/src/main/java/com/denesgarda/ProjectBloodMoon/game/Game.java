@@ -5,6 +5,7 @@ import com.denesgarda.ProjectBloodMoon.Main;
 import com.denesgarda.ProjectBloodMoon.game.data.PasswordField;
 import com.denesgarda.ProjectBloodMoon.game.data.Stats;
 import com.denesgarda.ProjectBloodMoon.game.data.Strings;
+import com.denesgarda.ProjectBloodMoon.utility.ArrayModification;
 import com.denesgarda.ProjectBloodMoon.utility.Utility;
 
 import javax.mail.*;
@@ -426,6 +427,67 @@ public class Game {
                                         }
                                         if(stats.getProgress() == 3) {
                                             stats = Utility.generateStats(username);
+                                            if (Strings.println("[Pixie]: So, why did you go down there?")) break;
+                                            if (Strings.println("[You] (Out of breath): Hold on, give me a break... First of all, can you tell me what just happened down there?")) break;
+                                            if (Strings.println("[Pixie]: Well, basically the entire cave fell apart since you touched the mellifliud. The mellifluid was the weird glowing liquid thing. Since it was the only thing holding the cave together, and you disturbed it, it fell apart.")) break;
+                                            if (Strings.println("[You]: Uhh... Ok then.")) break;
+                                            if (Strings.println("[Pixie]: So can you tell me now?")) break;
+                                            if (Strings.println("[You]: Well, I was chased by a bear, and the cave was the only place I could hide.")) break;
+                                            if (Strings.println("[Pixie]: Hmm... Well now I have no home.")) break;
+                                            if (Strings.println("[You]: Wait, you lived down there?")) break;
+                                            if (Strings.println("[Pixie]: Yeah...")) break;
+                                            if (Strings.println("[You]: The sun's going to set soon. We should probably get going.")) break;
+                                            if (Strings.println("[Pixie]: Get going? Go where?")) break;
+                                            if (Strings.println("[You]: To find shelter somewhere! Did you just want to stay here out in the open at night?")) break;
+                                            if (Strings.println("[Pixie]: I guess you're right.")) break;
+
+                                            stats.setProgress(4);
+                                            Utility.checkpoint(stats, username);
+                                        }
+                                        if(stats.getProgress() == 4) {
+                                            stats = Utility.generateStats(username);
+                                            if (Strings.println("You and the pixie start walking through the forest to find better shelter somewhere.")) break;
+                                            if (Strings.println("[Pixie]: So, what's your name?")) break;
+                                            if (Strings.println("[You]: Mine name is " + username + ". What yours?")) break;
+                                            if (Strings.println("[Pixie]: Actually, I don't have a name.")) break;
+                                            if (Strings.println("[You]: So what should I call you, then?")) break;
+                                            if (Strings.println("[Pixie]: I don't kow. I guess you can give me a name...")) break;
+                                            try {
+                                                stats.other.clone();
+                                            }
+                                            catch(Exception e) {
+                                                stats.other = new String[]{};
+                                            }
+                                            System.out.println("What do you want to name the pixie?");
+                                            while(true) {
+                                                System.out.print("Enter name: ");
+                                                String name = Main.consoleInput.readLine();
+                                                if(!name.isBlank()) {
+                                                    System.out.println("\nAre you sure you want the name \"" + name + "\"?\n1) Yes\n2) No");
+                                                    String confirmPixieName = Main.consoleInput.readLine();
+                                                    if(confirmPixieName.equalsIgnoreCase("1")) {
+                                                        stats.other = ArrayModification.append(stats.other, name);
+                                                        break;
+                                                    }
+                                                    else if(confirmPixieName.equalsIgnoreCase("2")) {
+                                                        System.out.println("Enter new pixie name.");
+                                                    }
+                                                    else if(confirmPixieName.equalsIgnoreCase("/exit")) {
+                                                        System.exit(0);
+                                                    }
+                                                    else if(confirmPixieName.equalsIgnoreCase("/quit")) {
+                                                        break gameLoop;
+                                                    }
+                                                    else {
+                                                        invalid();
+                                                    }
+                                                }
+                                                else {
+                                                    System.out.println("That's an invalid name! Please try again.");
+                                                }
+                                            }
+                                            if (Strings.println("[You]: I guess I can call you " + stats.other[0] + ".")) break;
+                                            if (Strings.println("[" + stats.other[0] + "]: Alright, sounds good!")) break;
                                             if (Strings.println("Thank you for playing. The rest of the game is not yet made. Come back soon!")) break;
                                             break;
                                         }
