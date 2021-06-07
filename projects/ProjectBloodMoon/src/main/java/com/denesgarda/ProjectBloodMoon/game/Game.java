@@ -649,7 +649,7 @@ public class Game {
                                         String from = "projectbloodmoon.services";
                                         String pass = "dpassgmail";
                                         String[] to = { rs.getString("email") }; // list of recipient email addresses
-                                        String subject = "Project: Blood Moon verification code";
+                                        String subject = "Project: Blood Moon, Information We Have About You";
                                         String body = "Here is all of the information we have about you:\n\nUsername: " + username + "\nEmail: " + rs.getString("email") + "\nCharacter gender: " + rs.getString("gender") + "\nCharacter race: " + rs.getString("race") + "\nSerialized game stats: " + rs.getString("stats") + "\n\nIf you see anything out of place, please let us know by replying to this email.";
                                         sendFromGMail(from, pass, to, subject, body);
 

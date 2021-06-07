@@ -77,6 +77,7 @@ public class Main {
                 System.out.println("""
                         What's new since beta0.9?
                             - Fixed a typo
+                            - Fixed an incorrect title
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");
