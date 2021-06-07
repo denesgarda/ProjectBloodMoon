@@ -440,7 +440,6 @@ public class Game {
                                             if (Strings.println("[Pixie]: Get going? Go where?")) break;
                                             if (Strings.println("[You]: To find shelter somewhere! Did you just want to stay here out in the open at night?")) break;
                                             if (Strings.println("[Pixie]: I guess you're right.")) break;
-
                                             stats.setProgress(4);
                                             Utility.checkpoint(stats, username);
                                         }
@@ -488,6 +487,33 @@ public class Game {
                                             }
                                             if (Strings.println("[You]: I guess I can call you " + stats.other[0] + ".")) break;
                                             if (Strings.println("[" + stats.other[0] + "]: Alright, sounds good!")) break;
+                                            if (Strings.println("You continue walking through the forest, the sun getting lower and lower in the sky...")) break;
+                                            if (Strings.println("[" + stats.other[0] + "]: So what were you doing all the way out here?")) break;
+                                            int dialogue1 = Strings.dialogue("Choose your reply:", new String[]{"I wanted to go exploring.", "My friends ditched me.", "I sneaked out."});
+                                            if(dialogue1 == 0) {
+                                                break;
+                                            }
+                                            else if(dialogue1 == 1) {
+                                                if (Strings.println("[You]: I wanted to go exploring.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: Cool. I was just sleeping until I hear you come in the cave.")) break;
+                                            }
+                                            else if(dialogue1 == 2) {
+                                                if (Strings.println("[You]: My friends ditched me.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: That sucks. I was just sleeping until I hear you come in the cave.")) break;
+                                            }
+                                            else if(dialogue1 == 3) {
+                                                if (Strings.println("[You]: I sneaked out.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: Interesting. I was just sleeping until I hear you come in the cave.")) break;
+                                            }
+                                            if (Strings.println("You see another cave up ahead and think it would be a good place to spend the night.")) break;
+                                            if (Strings.println("[You]: Look! Over there, another cave. We can sleep in there.")) break;
+                                            if (Strings.println("[" + stats.other[0] + "]: Alright, sure.")) break;
+                                            if (Strings.println("You both go into the cave and rest there for the night...")) break;
+                                            stats.setProgress(5);
+                                            Utility.checkpoint(stats, username);
+                                        }
+                                        if(stats.getProgress() == 5) {
+                                            stats = Utility.generateStats(username);
                                             if (Strings.println("Thank you for playing. The rest of the game is not yet made. Come back soon!")) break;
                                             break;
                                         }
