@@ -366,7 +366,7 @@ public class Game {
                                             if (Strings.println("[You]: You came up to me!")) break;
                                             if (Strings.println("[Pixie]: Right... I guess I got myself into this situation.")) break;
                                             if (Strings.println("[You]: What even is this place?!")) break;
-                                            if (Strings.println("[You]: I've never someplace like it before!")) break;
+                                            if (Strings.println("[You]: I've never seen someplace like it before!")) break;
                                             if (Strings.println("[Pixie]: It's... complicated. You wouldn't understand...")) break;
                                             if (Strings.println("[You]: Come on, tell me!")) break;
                                             if (Strings.println("[Pixie]: Fine, later, though. We should probably get out of here as soon as possible.")) break;
@@ -434,9 +434,10 @@ public class Game {
                                             if (Strings.println("[Pixie]: So can you tell me now?")) break;
                                             if (Strings.println("[You]: Well, I was chased by a bear, and the cave was the only place I could hide.")) break;
                                             if (Strings.println("[Pixie]: Hmm... Well now I have no home.")) break;
-                                            if (Strings.println("[You]: Wait, you lived down there?")) break;
-                                            if (Strings.println("[Pixie]: Yeah...")) break;
-                                            if (Strings.println("[You]: The sun's going to set soon. We should probably get going.")) break;
+                                            if (Strings.println("[You]: Wait, you live down there?")) break;
+                                            if (Strings.println("[Pixie]: Correction, I LIVED down there.")) break;
+                                            if (Strings.println("[You]: Oh...")) break;
+                                            if (Strings.println("[You]: Anyways, the sun's going to set soon. We should probably get going.")) break;
                                             if (Strings.println("[Pixie]: Get going? Go where?")) break;
                                             if (Strings.println("[You]: To find shelter somewhere! Did you just want to stay here out in the open at night?")) break;
                                             if (Strings.println("[Pixie]: I guess you're right.")) break;
@@ -495,15 +496,15 @@ public class Game {
                                             }
                                             else if(dialogue1 == 1) {
                                                 if (Strings.println("[You]: I wanted to go exploring.")) break;
-                                                if (Strings.println("[" + stats.other[0] + "]: Cool. I was just sleeping until I hear you come in the cave.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: Cool. I was just sleeping until I heard you come in the cave.")) break;
                                             }
                                             else if(dialogue1 == 2) {
                                                 if (Strings.println("[You]: My friends ditched me.")) break;
-                                                if (Strings.println("[" + stats.other[0] + "]: That sucks. I was just sleeping until I hear you come in the cave.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: That sucks. I was just sleeping until I heard you come in the cave.")) break;
                                             }
                                             else if(dialogue1 == 3) {
                                                 if (Strings.println("[You]: I sneaked out.")) break;
-                                                if (Strings.println("[" + stats.other[0] + "]: Interesting. I was just sleeping until I hear you come in the cave.")) break;
+                                                if (Strings.println("[" + stats.other[0] + "]: Interesting. I was just sleeping until I heard you come in the cave.")) break;
                                             }
                                             if (Strings.println("You see another cave up ahead and think it would be a good place to spend the night.")) break;
                                             if (Strings.println("[You]: Look! Over there, another cave. We can sleep in there.")) break;
