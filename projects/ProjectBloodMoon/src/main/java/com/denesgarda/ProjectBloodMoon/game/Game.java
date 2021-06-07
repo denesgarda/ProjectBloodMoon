@@ -317,7 +317,7 @@ public class Game {
                                                 public void run() {
                                                     try {
                                                         here.set(true);
-                                                        System.out.println("Here it is! Press [ENTER] to catch it!");
+                                                        System.out.println("\nHere it is! Press [ENTER] to catch it!");
                                                         Thread.sleep(1000);
                                                         here.set(false);
                                                     }
