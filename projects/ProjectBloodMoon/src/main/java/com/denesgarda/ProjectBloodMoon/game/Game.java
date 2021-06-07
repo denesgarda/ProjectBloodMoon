@@ -550,7 +550,8 @@ public class Game {
                                             1) Change email
                                             2) Change username
                                             3) Change password
-                                            4) Delete account""");
+                                            4) Delete account
+                                            5) Request my information""");
                                     String accountOptionsInput = Main.consoleInput.readLine();
                                     if (accountOptionsInput.equalsIgnoreCase("1")) {
                                         System.out.print("Enter new email: ");
@@ -635,7 +636,26 @@ public class Game {
                                         } else {
                                             System.out.println("Incorrect password.");
                                         }
-                                    } else if (accountOptionsInput.equalsIgnoreCase("/exit")) {
+                                    }
+                                    else if(accountOptionsInput.equalsIgnoreCase("5")) {
+                                        System.out.println("Please wait while we gather your information... (This won't take long)");
+
+                                        Statement stmt = Main.conn.createStatement();
+                                        String query = "SELECT * FROM pbm.accounts WHERE username = \"" + username + "\"";
+                                        ResultSet rs = stmt.executeQuery(query);
+                                        rs.next();
+
+                                        String from = "projectbloodmoon.services";
+                                        String pass = "dpassgmail";
+                                        String[] to = { rs.getString("email") }; // list of recipient email addresses
+                                        String subject = "Project: Blood Moon verification code";
+                                        String body = "Here is all of the information we have about you:\n\nUsername: " + username + "\nEmail: " + rs.getString("email") + "\nCharacter gender: " + rs.getString("gender") + "\nCharacter race: " + rs.getString("race") + "\nSerialized game stats: " + rs.getString("stats") + "\n\nIf you see anything out of place, please let us know by replying to this email.";
+                                        sendFromGMail(from, pass, to, subject, body);
+
+                                        Strings.println("We've sent your information to your email.\n(Press [ENTER] to continue)");
+                                        break;
+                                    }
+                                    else if (accountOptionsInput.equalsIgnoreCase("/exit")) {
                                         exit();
                                     } else if (accountOptionsInput.equalsIgnoreCase("/quit")) {
                                         break;

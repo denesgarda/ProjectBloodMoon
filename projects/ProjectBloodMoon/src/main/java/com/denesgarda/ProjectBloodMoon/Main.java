@@ -85,6 +85,7 @@ public class Main {
                             - Fixed uppercase and lowercase errors
                             - Added account deletion feedback
                             - Added more dialogue
+                            - Added information requests
                         (Press [ENTER] to continue)""");
                 consoleInput.readLine();
                 properties.setProperty("vwu", "false");
