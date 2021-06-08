@@ -18,10 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -650,7 +647,7 @@ public class Game {
                                         String pass = "dpassgmail";
                                         String[] to = { rs.getString("email") }; // list of recipient email addresses
                                         String subject = "Project: Blood Moon, Information We Have About You";
-                                        String body = "Here is all of the information we have about you:\n\nUsername: " + username + "\nEmail: " + rs.getString("email") + "\nCharacter gender: " + rs.getString("gender") + "\nCharacter race: " + rs.getString("race") + "\nSerialized game stats: " + rs.getString("stats") + "\n\nIf you see anything out of place, please let us know by replying to this email.";
+                                        String body = "Here is all of the information we have about you:\n\nUsername: " + username + "\nEmail: " + rs.getString("email") + "\nCharacter gender: " + rs.getString("gender") + "\nCharacter race: " + rs.getString("race") + "\nSerialized game stats: " + rs.getString("stats") + "\n\nWhat's serialized information? On the title screen of Project: Blood Moon, type \"/serial\" and we'll send you a copy of deserialized information.\n\nIf you see anything out of place, please let us know by replying to this email.";
                                         sendFromGMail(from, pass, to, subject, body);
 
                                         Strings.println("We've sent your information to your email.\n(Press [ENTER] to continue)");
@@ -666,7 +663,25 @@ public class Game {
                                         System.out.println("Cannot view inventory because you are not in a game.");
                                     } else invalid();
                                 }
-                            } else if (mainMenuInput.equalsIgnoreCase("/exit")) {
+                            }
+                            else if(mainMenuInput.equalsIgnoreCase("/serial")) {
+                                System.out.println("Please wait...");
+
+                                Statement stmt = Main.conn.createStatement();
+                                String query = "SELECT email FROM pbm.accounts WHERE username = \"" + username + "\"";
+                                ResultSet rs = stmt.executeQuery(query);
+                                rs.next();
+
+                                String from = "projectbloodmoon.services";
+                                String pass = "dpassgmail";
+                                String[] to = { rs.getString("email") }; // list of recipient email addresses
+                                String subject = "Project: Blood Moon, Deserialized Information We Have About You";
+                                String body = "Serialized information is just a piece of information that has been turned into text form.\nSerialized information isn't readable, so here's a break down of that information.\n\nCharacter's HP: " + stats.getHP() + "\nCharacter's inventory: " + Arrays.toString(stats.getInventory()) + "\nProgress level: " + stats.getProgress() + "\nOther information: " + Arrays.toString(stats.other) + "\n\nIf you have any questions, please let us know by replying to this email.";
+                                sendFromGMail(from, pass, to, subject, body);
+
+                                Strings.println("We've sent deserialized information to your email.\n(Press [ENTER] to continue)");
+                            }
+                            else if (mainMenuInput.equalsIgnoreCase("/exit")) {
                                 exit();
                             } else if (mainMenuInput.equalsIgnoreCase("/quit")) {
                             } else if (mainMenuInput.equalsIgnoreCase("/stats")) {
