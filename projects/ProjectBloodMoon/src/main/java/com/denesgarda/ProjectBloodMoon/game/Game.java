@@ -512,6 +512,12 @@ public class Game {
                                         }
                                         if(stats.getProgress() == 5) {
                                             stats = Utility.generateStats(username);
+                                            if (Strings.println("Morning comes...")) break;
+                                            if (Strings.println("You both go out of the cave, and you start heading in the direction you think home is.")) break;
+                                            if (Strings.println("ZOOOOOOOOOOOOOM!")) break;
+                                            if (Strings.println("You hear something and look up.")) break;
+                                            if (Strings.println("You see a plane flying above you, fairly low to the ground.")) break;
+                                            if (Strings.println("You get a little worried, because you've never seen a plane like that.")) break;
                                             if (Strings.println("Thank you for playing. The rest of the game is not yet made. Come back soon!")) break;
                                             break;
                                         }
